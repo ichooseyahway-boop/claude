@@ -22,7 +22,7 @@ exists so the owner can see exactly where the gap is.
 | Area | Done | Partial | Blocked | Not started |
 |---|---:|---:|---:|---:|
 | Marketing site | 5 | 0 | 0 | 0 |
-| Auth and identity | 0 | 0 | 4 | 0 |
+| Auth and identity | 0 | 3 | 1 | 0 |
 | Billing | 0 | 2 | 3 | 0 |
 | Onboarding and authorization | 0 | 4 | 0 | 1 |
 | AI systems and capture | 1 | 1 | 0 | 1 |
@@ -64,9 +64,9 @@ have emailed anyone.
 
 | ID | Requirement | Status | Notes |
 |---|---|---|---|
-| FR-AUTH-001 | Secure sign-in (magic link) | **Blocked** | No Supabase project. `src/app/[locale]/sign-in/page.tsx` renders a disabled state rather than a form that silently fails. Schema (`profiles`) and rate limiter are ready. |
-| FR-AUTH-002 | MFA (P0 internal) | **Blocked** | `profiles.mfa_enrolled_at` exists; enforcement needs the auth provider. |
-| FR-AUTH-003 | Organization membership | **Blocked** | Schema, RLS and role model complete and tested (`memberships`, `invitations`, `supabase/test/rls_tenant_isolation.sql`). Invitation flow UI not built. |
+| FR-AUTH-001 | Secure sign-in (magic link) | **Partial** | Request, callback and sign-out handlers implemented: rate limited per salted client key, identical response whether or not the address exists, post-sign-in redirect constrained to a path on this site, session read with `getUser()` (validated) rather than `getSession()` (cookie-trusting). 22 tests. Cannot be exercised end to end without a Supabase project. |
+| FR-AUTH-002 | MFA (P0 internal) | **Partial** | `authorize()` refuses every internal role whose profile has no `mfaEnrolledAt`, tested in `access.test.ts`. Enrolment itself needs the auth provider. |
+| FR-AUTH-003 | Organization membership | **Partial** | Schema, RLS and role model complete and tested. `buildActor` drops revoked, unaccepted, future-dated and other-user memberships before any authorization decision sees them. Invitation flow UI not built. |
 | FR-AUTH-004 | Account recovery and removal | **Blocked** | Needs the auth provider. |
 
 ## 9.3 Purchase, entitlement and billing
@@ -187,7 +187,7 @@ for routine orders" rejection criterion currently true.
 | 16.2 tenant-isolation tests | **Done** | `supabase/test/rls_tenant_isolation.sql` — 27 assertions, all passing against PostgreSQL 16 |
 | 16.5 retention defaults | **Partial** | Published on the security page and encoded in `evidence_objects.retention_date`; no retention worker. |
 | 17.1 WCAG 2.2 AA | **Partial** | Skip link, focus styles, semantic landmarks, labelled fields, error summary linked to fields, reduced motion, scrollable tables with `role="region"`, no colour-only status. **No automated axe run and no manual screen-reader pass.** |
-| 20.1 test layers | **Partial** | Unit and service (343 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
+| 20.1 test layers | **Partial** | Unit and service (365 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
 | 21.1 CI pipeline | **Not started** | `npm run verify` runs format, lint, typecheck, test and build locally. No CI workflow file. |
 | 18.4 backups | **Blocked** | Requires a provisioned database. |
 

@@ -6,7 +6,7 @@ PRD ref: section 20.
 
 | Layer | Status | Count | Command |
 |---|---|---|---|
-| Unit (domain rules and services) | Implemented | 343 across 18 files | `npm test` |
+| Unit (domain rules and services) | Implemented | 365 across 19 files | `npm test` |
 | Database constraints and RLS | Implemented | 27 assertions | `npm run db:test` |
 | Type checking | Implemented | — | `npm run typecheck` |
 | Lint / format | Implemented | — | `npm run lint`, `npm run format:check` |
@@ -144,6 +144,19 @@ no vendor account, real service code.
   only and returns a type from which `internalNotes` is structurally absent,
   release runs the full gate and writes a `denied` audit event when it refuses,
   and a correction produces version 2 while the original becomes `superseded`.
+
+### Authentication (`src/lib/auth/`)
+
+- A session becomes an actor only with a verified email, an active profile and
+  at least one accepted, non-revoked membership; each rejection is a distinct
+  reason because each needs a different response.
+- Revoked, unaccepted and future-dated memberships are dropped, and a
+  membership belonging to a different user is never adopted even if the
+  repository returns one.
+- The post-sign-in redirect accepts only a path on this site: absolute URLs,
+  protocol-relative `//host` and `/\host`, backslashes and control characters
+  all fall back to the default.
+- The sign-in response is identical whether or not the address exists.
 
 ### Prompt-injection defence (`src/domain/evaluation/`)
 

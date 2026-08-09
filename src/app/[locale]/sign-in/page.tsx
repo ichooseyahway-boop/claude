@@ -6,10 +6,14 @@ import {
   Section,
 } from '@/components/ui/primitives';
 import { isAuthConfigured } from '@/lib/env';
+import { segmentFromLocale } from '@/lib/i18n/locales';
 import { resolvePageLocale } from '@/lib/i18n/server';
 import { buildMetadata } from '@/lib/seo';
 
-type PageProps = { params: Promise<{ locale: string }> };
+type PageProps = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
 
 export async function generateMetadata({
   params,
@@ -34,21 +38,40 @@ export async function generateMetadata({
  * rendering a form that silently fails — PRD 1.1.5 requires an incomplete
  * feature to be disabled, not displayed as a workflow that blocks customers.
  */
-export default async function SignInPage({ params }: PageProps) {
-  const { m } = await resolvePageLocale(params);
+export default async function SignInPage({ params, searchParams }: PageProps) {
+  const { locale, m } = await resolvePageLocale(params);
   const configured = isAuthConfigured();
+
+  const rawStatus = (await searchParams).status;
+  const status = Array.isArray(rawStatus) ? rawStatus[0] : rawStatus;
 
   return (
     <>
       <PageHeader title={m.signIn.title} intro={m.signIn.intro} />
 
       <Section>
+        {status === 'link_invalid' ? (
+          <Callout title={m.signIn.linkInvalidTitle} tone="warning">
+            <p>{m.signIn.linkInvalidBody}</p>
+          </Callout>
+        ) : null}
+        {status === 'signed_out' ? (
+          <Callout title={m.signIn.signedOutTitle} tone="info">
+            <p>{m.signIn.signedOutBody}</p>
+          </Callout>
+        ) : null}
+
         {configured ? (
           <form
             method="post"
             action="/api/auth/sign-in"
             className="max-w-md space-y-4"
           >
+            <input
+              type="hidden"
+              name="locale"
+              value={segmentFromLocale(locale)}
+            />
             <div>
               <label htmlFor="email" className="block font-medium">
                 {m.signIn.emailLabel}
@@ -70,11 +93,8 @@ export default async function SignInPage({ params }: PageProps) {
             </button>
           </form>
         ) : (
-          <Callout title={m.errors.genericTitle} tone="warning">
-            <p>
-              Authentication is not configured in this environment. See
-              README.md for the required environment variables.
-            </p>
+          <Callout title={m.signIn.notConfiguredTitle} tone="warning">
+            <p>{m.signIn.notConfiguredBody}</p>
           </Callout>
         )}
 

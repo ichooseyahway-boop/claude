@@ -703,6 +703,14 @@ export const frCA: Messages = {
       'Les comptes sont créés lors de l’achat d’un audit ou de l’acceptation d’une invitation de votre organisation.',
     mfaNote:
       'L’authentification multifacteur est obligatoire pour tous les comptes internes et offerte aux comptes clients.',
+    linkInvalidTitle: 'Ce lien de connexion n’a pas fonctionné',
+    linkInvalidBody:
+      'Les liens de connexion sont à usage unique et expirent peu après leur envoi. Demandez-en un nouveau ci-dessous.',
+    signedOutTitle: 'Vous êtes déconnecté',
+    signedOutBody: 'Votre session est terminée sur cet appareil.',
+    notConfiguredTitle: 'La connexion n’est pas disponible',
+    notConfiguredBody:
+      'L’authentification n’est pas configurée dans cet environnement. Aucun lien de connexion ne peut être envoyé.',
   },
 
   legal: {

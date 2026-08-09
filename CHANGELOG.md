@@ -43,6 +43,17 @@ Not yet released, and not yet able to accept paying customers — see
 - Deterministic pre-evaluation checks.
 - Billing webhook idempotency, ordering and dead-letter decisions.
 
+**Authentication**
+- Magic-link sign-in, callback and sign-out handlers: rate limited per salted
+  client key, with a response that is identical whether or not the address
+  belongs to an account.
+- Session resolution that admits an actor only with a verified email, an active
+  profile and an accepted, non-revoked membership, dropping any membership that
+  belongs to someone else.
+- Server-side permission guards returning a discriminated union, so a route that
+  forgets to handle denial does not compile.
+- Post-sign-in redirects constrained to a path on this site.
+
 **Service layer**
 - Repository interfaces where every tenant-scoped method takes an explicit
   `organizationId`, plus an in-memory store so the services are testable without
@@ -107,16 +118,20 @@ Not yet released, and not yet able to accept paying customers — see
 
 ### Not included
 
-Authentication and session handling, the operations workspace and client portal
-user interfaces, PDF rendering, scheduled monitoring, retention workers, the CI
-workflow and the evaluation fixture suite. The service layer above is complete
-and tested but has no HTTP surface in front of it yet.
+A PostgreSQL-backed `DataStore` — the schema and row-level security policies are
+done and verified, but the repositories on top of them are not, so the in-memory
+store is development-only and production refuses to start rather than silently
+discarding writes.
+
+Also not included: the operations workspace and client portal user interfaces,
+PDF rendering, scheduled monitoring, retention workers, the CI workflow and the
+evaluation fixture suite.
 
 Vendor accounts for database, billing, email and AI are not provisioned, and
 PRD 1.1.12 forbids substituting placeholder production values.
 
 ### Verification
 
-343 unit tests pass across 18 files. 27 database isolation assertions pass
+365 unit tests pass across 19 files. 27 database isolation assertions pass
 against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
 is clean, with all bilingual routes prerendered.

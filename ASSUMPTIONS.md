@@ -281,3 +281,28 @@ root.
 **Why.** `initdb` refuses to run as root, so the temporary cluster cannot start.
 The script previously failed with a bare non-zero exit that looked like a test
 failure. Pass `DATABASE_URL` to test an existing database instead.
+
+## A-028 — No PostgreSQL `DataStore`, and the in-memory one never serves production
+
+**Decision.** `src/data/store.ts` returns the in-memory store in development and
+test, and throws `DataStoreNotConfiguredError` in production — including when
+Supabase credentials are present, because the repositories that would use them
+are not written yet.
+
+**Why.** The schema, RLS policies and isolation suite are done and verified
+against a real PostgreSQL 16 cluster, but the repository implementations on top
+of them are not. Falling back to the in-memory store in production would render
+screens while silently discarding every write between requests, which is worse
+than an outage: the customer would not know their data was gone.
+
+**Owner action required.** Implementing `DataStore` against Supabase is the
+single largest remaining piece of work, and it needs a provisioned project.
+
+## A-029 — `getUser()`, not `getSession()`
+
+**Decision.** `readSupabaseIdentity` calls `supabase.auth.getUser()`.
+
+**Why.** `getSession()` returns the contents of the session cookie without
+contacting the auth server, so a forged or tampered cookie would be believed.
+`getUser()` validates the token. The cost is a network call per request; the
+alternative is an authentication bypass.

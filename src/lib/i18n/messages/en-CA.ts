@@ -690,6 +690,14 @@ export const enCA = {
       'Accounts are created when you purchase an audit or accept an invitation from your organization.',
     mfaNote:
       'Multi-factor authentication is required for all internal staff accounts and is available for customer accounts.',
+    linkInvalidTitle: 'That sign-in link did not work',
+    linkInvalidBody:
+      'Sign-in links can be used once and expire shortly after they are sent. Request a new one below.',
+    signedOutTitle: 'You are signed out',
+    signedOutBody: 'Your session has ended on this device.',
+    notConfiguredTitle: 'Sign-in is unavailable',
+    notConfiguredBody:
+      'Authentication is not configured in this environment. No sign-in link can be sent.',
   },
 
   legal: {
