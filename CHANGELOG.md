@@ -81,6 +81,13 @@ Not yet released, and not yet able to accept paying customers — see
   non-integer scores, duplicate dimensions and reversed evidence spans.
 - Anthropic adapter behind the `AIProvider` contract, reporting itself
   unconfigured without credentials so no other environment changes.
+- 60-case evaluation fixture suite in the PRD 20.4 proportions, asserting score
+  bands rather than model prose, with 18 tests that keep the suite honest:
+  matched pairs must carry identical expectations, deterministic expectations
+  must hold against the current checks, and no fixture may contain real
+  personal data.
+- `runDriftComparison`, the shadow comparison PRD 15.6 requires before an
+  evaluator version change. Not part of `npm test` — it makes billable calls.
 
 **Security**
 - SSRF guard for outbound capture, including redirect re-validation.
@@ -132,6 +139,6 @@ PRD 1.1.12 forbids substituting placeholder production values.
 
 ### Verification
 
-365 unit tests pass across 19 files. 27 database isolation assertions pass
+383 unit tests pass across 20 files. 27 database isolation assertions pass
 against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
 is clean, with all bilingual routes prerendered.

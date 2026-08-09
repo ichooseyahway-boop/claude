@@ -187,7 +187,7 @@ for routine orders" rejection criterion currently true.
 | 16.2 tenant-isolation tests | **Done** | `supabase/test/rls_tenant_isolation.sql` — 27 assertions, all passing against PostgreSQL 16 |
 | 16.5 retention defaults | **Partial** | Published on the security page and encoded in `evidence_objects.retention_date`; no retention worker. |
 | 17.1 WCAG 2.2 AA | **Partial** | Skip link, focus styles, semantic landmarks, labelled fields, error summary linked to fields, reduced motion, scrollable tables with `role="region"`, no colour-only status. **No automated axe run and no manual screen-reader pass.** |
-| 20.1 test layers | **Partial** | Unit and service (365 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
+| 20.1 test layers | **Partial** | Unit and service (383 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
 | 21.1 CI pipeline | **Not started** | `npm run verify` runs format, lint, typecheck, test and build locally. No CI workflow file. |
 | 18.4 backups | **Blocked** | Requires a provisioned database. |
 

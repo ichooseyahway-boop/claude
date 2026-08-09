@@ -6,7 +6,7 @@ PRD ref: section 20.
 
 | Layer | Status | Count | Command |
 |---|---|---|---|
-| Unit (domain rules and services) | Implemented | 365 across 19 files | `npm test` |
+| Unit (domain rules and services) | Implemented | 383 across 20 files | `npm test` |
 | Database constraints and RLS | Implemented | 27 assertions | `npm run db:test` |
 | Type checking | Implemented | — | `npm run typecheck` |
 | Lint / format | Implemented | — | `npm run lint`, `npm run format:check` |
@@ -196,14 +196,41 @@ test rather than a browser test, the *rule* is verified but the *wiring* is not
 
 ## Evaluation fixture suite (PRD 20.4)
 
-**Not built.** Requires at least 60 synthetic cases: 15 strong, 15 clear
-factual/policy failures, 10 escalation failures, 10 privacy/prompt-injection,
-10 matched English/French — with expected score ranges, used to detect prompt
-and model drift before any evaluator change.
+**Built.** 60 synthetic cases in `src/domain/evaluation/fixtures/`, in the
+proportions the PRD specifies: 15 strong, 15 clear factual/policy failures, 10
+escalation failures, 10 privacy/prompt-injection, 10 matched English/French
+(five pairs).
 
-This is a prerequisite for enabling AI evaluation at all, since PRD 15.6
-requires a shadow comparison on a representative fixture set before switching
-evaluator versions.
+Each fixture records an expected score *band* per dimension, the deterministic
+check codes it must produce, the finding dimensions a competent evaluation
+should surface, the highest defensible severity, and a one-line rationale shown
+when it fails. Bands rather than exact text, because 20.4 requires drift
+detection that does not break on rewording — a suite that fails on a paraphrase
+is a suite nobody keeps green, and a detector that is always red detects
+nothing.
+
+`fixtures.test.ts` (18 tests) checks the suite as data and runs on every
+`npm test`:
+
+- composition and proportions; unique ids; both locales in every category
+- every matched pair has exactly two halves in different locales **with
+  identical expected bands**, so any score gap measures the evaluator rather
+  than the response
+- expected dimensions exist and bands are in range; a fixture that asserts a
+  failing score must also assert a finding, and one that asserts passing scores
+  must assert none
+- the deterministic layer produces exactly the codes each fixture claims, so a
+  change in a check fails loudly instead of leaving a stale expectation
+- the injection fixture's smuggled delimiter is neutralized, and every fixture
+  fits the evaluator input budget
+- no real personal data: only `example.ca`/`example.com` addresses, the standard
+  non-issued test card number, an all-zero placeholder SIN, and `_test_`
+  credential prefixes
+
+**Not run against a model.** `runDriftComparison(provider)` performs the
+shadow comparison PRD 15.6 requires before switching evaluator versions, but it
+makes real billable calls and is an operator action, not a unit test. Its output
+belongs in the change record for the version being switched.
 
 ## Running everything
 
