@@ -1,4 +1,3 @@
-import { authorize } from '@/domain/access/actor';
 import type { Locale } from '@/lib/i18n';
 import type {
   AiSystem,
@@ -7,7 +6,14 @@ import type {
   Project,
 } from '@/data/types';
 import { checkLocaleScope } from '@/domain/entitlements/entitlements';
-import { audit, fail, ok, type ServiceContext, type ServiceResult } from './context';
+import {
+  audit,
+  fail,
+  ok,
+  permit,
+  type ServiceContext,
+  type ServiceResult,
+} from './context';
 
 /**
  * Onboarding, authorization and scope review.
@@ -58,15 +64,19 @@ export async function getOnboardingStatus(
   organizationId: string,
   projectId: string,
 ): Promise<ServiceResult<OnboardingStatus>> {
-  const decision = authorize(context.actor, organizationId, 'project.read', {
+  const decision = permit(context, organizationId, 'project.read', {
     projectId,
   });
   if (!decision.allowed) return fail(decision.code, decision.message);
 
-  const project = await context.data.projects.findById(organizationId, projectId);
+  const project = await context.data.projects.findById(
+    organizationId,
+    projectId,
+  );
   if (!project) return fail('NOT_FOUND', 'No such project.');
 
-  const organization = await context.data.organizations.findById(organizationId);
+  const organization =
+    await context.data.organizations.findById(organizationId);
   const system = await context.data.aiSystems.findByProject(
     organizationId,
     projectId,
@@ -173,15 +183,18 @@ export async function saveSystemProfile(
   projectId: string,
   input: SystemProfileInput,
 ): Promise<ServiceResult<AiSystem>> {
-  const decision = authorize(
-    context.actor,
+  const decision = permit(
+    context,
     organizationId,
     'project.update_onboarding',
     { projectId },
   );
   if (!decision.allowed) return fail(decision.code, decision.message);
 
-  const project = await context.data.projects.findById(organizationId, projectId);
+  const project = await context.data.projects.findById(
+    organizationId,
+    projectId,
+  );
   if (!project) return fail('NOT_FOUND', 'No such project.');
 
   if (project.onboardingAcceptedAt !== null) {
@@ -277,8 +290,8 @@ export async function signAuthorization(
   projectId: string,
   input: AttestationInput,
 ): Promise<ServiceResult<AuthorizationAttestation>> {
-  const decision = authorize(
-    context.actor,
+  const decision = permit(
+    context,
     organizationId,
     'project.sign_authorization',
     { projectId },
@@ -286,7 +299,10 @@ export async function signAuthorization(
   if (!decision.allowed) return fail(decision.code, decision.message);
   if (!context.actor) return fail('NOT_AUTHENTICATED', 'Sign in to continue.');
 
-  const project = await context.data.projects.findById(organizationId, projectId);
+  const project = await context.data.projects.findById(
+    organizationId,
+    projectId,
+  );
   if (!project) return fail('NOT_FOUND', 'No such project.');
 
   const unconfirmed = Object.entries(input.confirmations)
@@ -361,8 +377,8 @@ export async function revokeAuthorization(
   attestationId: string,
   reason: string,
 ): Promise<ServiceResult<void>> {
-  const decision = authorize(
-    context.actor,
+  const decision = permit(
+    context,
     organizationId,
     'project.revoke_authorization',
     { projectId },
@@ -409,12 +425,9 @@ export async function addKnowledgeSource(
   projectId: string,
   input: KnowledgeSourceInput,
 ): Promise<ServiceResult<KnowledgeSource>> {
-  const decision = authorize(
-    context.actor,
-    organizationId,
-    'project.upload_source',
-    { projectId },
-  );
+  const decision = permit(context, organizationId, 'project.upload_source', {
+    projectId,
+  });
   if (!decision.allowed) return fail(decision.code, decision.message);
 
   if (!input.storageKey && !input.sourceUrl) {
@@ -462,8 +475,8 @@ export async function submitOnboarding(
   organizationId: string,
   projectId: string,
 ): Promise<ServiceResult<Project>> {
-  const decision = authorize(
-    context.actor,
+  const decision = permit(
+    context,
     organizationId,
     'project.submit_onboarding',
     { projectId },
@@ -477,13 +490,19 @@ export async function submitOnboarding(
     const missing = status.value.steps
       .filter((s) => !s.complete && s.key !== 'submission')
       .flatMap((s) => s.missing);
-    return fail('VALIDATION_FAILED', 'Onboarding is not complete.', { missing });
+    return fail('VALIDATION_FAILED', 'Onboarding is not complete.', {
+      missing,
+    });
   }
 
-  const updated = await context.data.projects.update(organizationId, projectId, {
-    onboardingCompletedAt: context.now(),
-    status: 'scope_review',
-  });
+  const updated = await context.data.projects.update(
+    organizationId,
+    projectId,
+    {
+      onboardingCompletedAt: context.now(),
+      status: 'scope_review',
+    },
+  );
 
   await audit(context, {
     organizationId,
@@ -531,15 +550,15 @@ export async function decideScope(
   projectId: string,
   input: ScopeDecisionInput,
 ): Promise<ServiceResult<Project>> {
-  const decision = authorize(
-    context.actor,
-    organizationId,
-    'project.decide_scope',
-    { projectId },
-  );
+  const decision = permit(context, organizationId, 'project.decide_scope', {
+    projectId,
+  });
   if (!decision.allowed) return fail(decision.code, decision.message);
 
-  const project = await context.data.projects.findById(organizationId, projectId);
+  const project = await context.data.projects.findById(
+    organizationId,
+    projectId,
+  );
   if (!project) return fail('NOT_FOUND', 'No such project.');
 
   if (project.onboardingCompletedAt === null) {

@@ -1,7 +1,12 @@
 import type { DataStore } from '@/data/repositories';
 import type { Providers } from '@/integrations/registry';
-import type { Actor } from '@/domain/access/actor';
+import {
+  authorize,
+  type Actor,
+  type AuthorizationResult,
+} from '@/domain/access/actor';
 import type { DenialCode } from '@/domain/access/actor';
+import type { Permission } from '@/domain/access/permissions';
 
 /**
  * Service context.
@@ -20,6 +25,27 @@ export interface ServiceContext {
   /** Injected ID generator, so tests get deterministic identifiers. */
   newId: () => string;
   correlationId: string;
+}
+
+/**
+ * Authorize against the context's clock.
+ *
+ * Services must go through this rather than calling `authorize` directly.
+ * `authorize` falls back to `new Date()` when no clock is supplied, so a direct
+ * call would evaluate the step-up re-authentication window (7.7) against
+ * wall-clock time while the rest of the same request used `context.now()` —
+ * two clocks in one decision. Binding it here makes that impossible to forget.
+ */
+export function permit(
+  context: ServiceContext,
+  organizationId: string,
+  permission: Permission,
+  options: { projectId?: string } = {},
+): AuthorizationResult {
+  return authorize(context.actor, organizationId, permission, {
+    ...options,
+    now: context.now(),
+  });
 }
 
 export type ServiceErrorCode =

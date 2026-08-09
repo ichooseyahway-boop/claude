@@ -43,6 +43,34 @@ Not yet released, and not yet able to accept paying customers — see
 - Deterministic pre-evaluation checks.
 - Billing webhook idempotency, ordering and dead-letter decisions.
 
+**Service layer**
+- Repository interfaces where every tenant-scoped method takes an explicit
+  `organizationId`, plus an in-memory store so the services are testable without
+  a database.
+- Permission model, actor resolution and a `permit()` helper that binds the
+  request clock into every authorization decision.
+- Onboarding: system profile, knowledge sources, scope review and the
+  authorization attestation that gates all testing.
+- Planning: one draft plan at a time, entitlement caps enforced at build time,
+  coverage and matched-pair gaps, senior approval, immutability after approval.
+- Execution: run creation from an approved plan, state transitions re-checked
+  against authorization and the kill switch, checksummed immutable capture.
+- Evaluation: deterministic checks, structured-output AI proposal with bounded
+  retries, and mandatory analyst review of every dimension before any score is
+  approved.
+- Findings and reports: evidence-linked findings, severity confirmation routing,
+  risk acceptance recorded with accepter, reason and review date, report
+  composition from approved data only, preview, approval, the nine-condition
+  release gate, and corrections as new versions.
+
+**AI evaluator**
+- Constant system prompt with untrusted captured content confined to delimited
+  blocks, delimiter neutralization and a bounded input budget.
+- Versioned output schema rejecting unknown dimensions, out-of-range or
+  non-integer scores, duplicate dimensions and reversed evidence spans.
+- Anthropic adapter behind the `AIProvider` contract, reporting itself
+  unconfigured without credentials so no other environment changes.
+
 **Security**
 - SSRF guard for outbound capture, including redirect re-validation.
 - Allowlist-based safe logging, key- and value-based redaction, secret masking
@@ -79,13 +107,16 @@ Not yet released, and not yet able to accept paying customers — see
 
 ### Not included
 
-Client portal, operations workspace, authentication, report generation and PDF
-rendering, AI evaluation, scheduled monitoring, retention workers, CI workflow
-and the evaluation fixture suite. Vendor accounts for database, billing, email
-and AI are not provisioned, and PRD 1.1.12 forbids substituting placeholder
-production values.
+Authentication and session handling, the operations workspace and client portal
+user interfaces, PDF rendering, scheduled monitoring, retention workers, the CI
+workflow and the evaluation fixture suite. The service layer above is complete
+and tested but has no HTTP surface in front of it yet.
+
+Vendor accounts for database, billing, email and AI are not provisioned, and
+PRD 1.1.12 forbids substituting placeholder production values.
 
 ### Verification
 
-194 unit tests pass. 27 database isolation assertions pass against
-PostgreSQL 16. Production build succeeds with all bilingual routes prerendered.
+343 unit tests pass across 18 files. 27 database isolation assertions pass
+against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
+is clean, with all bilingual routes prerendered.

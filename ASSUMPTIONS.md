@@ -242,3 +242,42 @@ worse than none.
 
 **Owner action required.** Confirm the CI platform, then the workflow is a
 short file wrapping `npm run verify` and `npm run db:test`.
+
+## A-025 — `effort`, not `temperature`, for the evaluator
+
+**Decision.** `src/integrations/anthropic/evaluator.ts` sends
+`output_config.effort: 'medium'` and does not send `temperature`, `top_p` or
+`top_k`.
+
+**Why.** PRD 15.6 asks for "low temperature or equivalent for evaluation". On
+the current Claude models those three sampling parameters have been removed and
+the API rejects a request carrying any of them with a 400. `effort` is the
+supported control, and it is the "or equivalent" the PRD allows for. Determinism
+of the *output shape* is enforced separately and more strongly, by the
+structured-output JSON schema plus `validateEvaluatorOutput`, which is what the
+pipeline actually depends on.
+
+**Deviation, deliberate.** Recorded here rather than silently, because a reader
+comparing the adapter against 15.6 would otherwise think the requirement was
+skipped.
+
+## A-026 — Services authorize through `permit()`, never `authorize()` directly
+
+**Decision.** `src/domain/services/context.ts` exports `permit(context, ...)`,
+which binds `context.now()` into the authorization call. Service modules import
+that and never call `authorize` directly.
+
+**Why.** `authorize` falls back to `new Date()` when no clock is supplied, so a
+direct call evaluates the step-up re-authentication window (7.7) against
+wall-clock time while the rest of the same request uses the injected clock. Two
+clocks in one authorization decision is a correctness bug and it makes the
+window untestable. Found by a failing test, not by review.
+
+## A-027 — `db:test` must not run as root
+
+**Decision.** `scripts/db-test.sh` exits with an explanatory message when run as
+root.
+
+**Why.** `initdb` refuses to run as root, so the temporary cluster cannot start.
+The script previously failed with a bare non-zero exit that looked like a test
+failure. Pass `DATABASE_URL` to test an existing database instead.

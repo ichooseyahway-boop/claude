@@ -224,7 +224,9 @@ export function roleHasPermission(
   return ROLE_PERMISSIONS[role].includes(permission);
 }
 
-export function permissionsForRole(role: MembershipRole): readonly Permission[] {
+export function permissionsForRole(
+  role: MembershipRole,
+): readonly Permission[] {
   return ROLE_PERMISSIONS[role];
 }
 

@@ -84,21 +84,22 @@ export function createHarness(actor: Actor | null = null): Harness {
   const store = createMemoryDataStore();
   let now = FIXED_NOW;
 
-  const base: ServiceContext = {
-    actor,
+  // Providers are resolved when the context is built, not when the harness is
+  // created, so a test can install an override after `createHarness()` and have
+  // it take effect. Capturing them eagerly silently ignored the override.
+  const build = (nextActor: Actor | null): ServiceContext => ({
+    actor: nextActor,
     data: store,
     providers: getProviders(),
     now: () => now,
     newId: () => `id_${++idCounter}`,
     correlationId: 'corr_test',
-  };
+  });
 
   return {
-    context: base,
+    context: build(actor),
     state: store.state,
-    as(nextActor) {
-      return { ...base, actor: nextActor };
-    },
+    as: build,
     advance(ms) {
       now = new Date(now.getTime() + ms);
     },
@@ -119,7 +120,9 @@ export async function seedProject(
 ): Promise<{ organization: Organization; project: Project }> {
   const organizationId = options.organizationId ?? ORG_ID;
   const projectId = options.projectId ?? PROJECT_ID;
-  const servicePackage = getPackage(options.packageCode ?? 'bilingual_pro_audit');
+  const servicePackage = getPackage(
+    options.packageCode ?? 'bilingual_pro_audit',
+  );
 
   const organization: Organization = {
     id: organizationId,
@@ -170,7 +173,9 @@ export function makeScenarioTemplate(
     category: overrides.category ?? 'policy_accuracy',
     riskWeight: overrides.riskWeight ?? 1,
     body: overrides.body ?? {
-      turns: [{ role: 'tester', content: 'How long do I have to get a refund?' }],
+      turns: [
+        { role: 'tester', content: 'How long do I have to get a refund?' },
+      ],
     },
     evaluationRules: overrides.evaluationRules ?? {},
     tags: overrides.tags ?? [],
@@ -231,7 +236,9 @@ export async function seedApprovedPlan(
         customerFacts: {},
         expectedOutcomes: ['Thirty days from delivery.'],
       };
-      scenarios.push(await harness.context.data.auditPlans.addScenario(scenario));
+      scenarios.push(
+        await harness.context.data.auditPlans.addScenario(scenario),
+      );
     }
   }
 

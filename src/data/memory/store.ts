@@ -252,9 +252,7 @@ export function createMemoryDataStore(
         return state.projects.get(organizationId, projectId);
       },
       async findByIdInternal(projectId) {
-        return (
-          state.projects.all().find((p) => p.id === projectId) ?? null
-        );
+        return state.projects.all().find((p) => p.id === projectId) ?? null;
       },
       async listForOrganization(organizationId) {
         return state.projects.where(organizationId, () => true);
@@ -301,8 +299,9 @@ export function createMemoryDataStore(
                 a.revokedAt === null &&
                 (a.expiresAt === null || a.expiresAt > now),
             )
-            .sort((a, b) => b.acceptedAt.getTime() - a.acceptedAt.getTime())[0] ??
-          null
+            .sort(
+              (a, b) => b.acceptedAt.getTime() - a.acceptedAt.getTime(),
+            )[0] ?? null
         );
       },
       async listForProject(organizationId, projectId) {
@@ -315,10 +314,9 @@ export function createMemoryDataStore(
         return state.authorizations.insert(attestation);
       },
       async revoke(id, at, reason) {
-        const found = state.authorizations
-          .all()
-          .find((a) => a.id === id);
-        if (!found) throw new RepositoryError('No such attestation', 'NOT_FOUND');
+        const found = state.authorizations.all().find((a) => a.id === id);
+        if (!found)
+          throw new RepositoryError('No such attestation', 'NOT_FOUND');
         state.authorizations.patch(found.organizationId, id, {
           revokedAt: at,
           revokedReason: reason,
@@ -407,7 +405,10 @@ export function createMemoryDataStore(
         return state.runs.get(organizationId, runId);
       },
       async listForProject(organizationId, projectId) {
-        return state.runs.where(organizationId, (r) => r.projectId === projectId);
+        return state.runs.where(
+          organizationId,
+          (r) => r.projectId === projectId,
+        );
       },
       async create(run) {
         return state.runs.insert(run);
@@ -436,7 +437,8 @@ export function createMemoryDataStore(
       async listTurns(organizationId, caseId) {
         return state.turns
           .filter(
-            (t) => t.organizationId === organizationId && t.testCaseId === caseId,
+            (t) =>
+              t.organizationId === organizationId && t.testCaseId === caseId,
           )
           .sort((a, b) => a.sequence - b.sequence)
           .map((t) => structuredClone(t));
@@ -482,11 +484,12 @@ export function createMemoryDataStore(
         );
       },
       async upsertScore(score) {
-        const existing = state.dimensionScores
-          .where(
-            score.organizationId,
-            (s) => s.testCaseId === score.testCaseId && s.dimension === score.dimension,
-          )[0];
+        const existing = state.dimensionScores.where(
+          score.organizationId,
+          (s) =>
+            s.testCaseId === score.testCaseId &&
+            s.dimension === score.dimension,
+        )[0];
         if (existing) {
           return state.dimensionScores.patch(
             score.organizationId,
@@ -503,7 +506,10 @@ export function createMemoryDataStore(
         return state.findings.get(organizationId, findingId);
       },
       async listForRun(organizationId, runId) {
-        return state.findings.where(organizationId, (f) => f.testRunId === runId);
+        return state.findings.where(
+          organizationId,
+          (f) => f.testRunId === runId,
+        );
       },
       async listForProject(organizationId, projectId) {
         return state.findings.where(
@@ -533,7 +539,10 @@ export function createMemoryDataStore(
         );
       },
       async listForRun(organizationId, runId) {
-        return state.reports.where(organizationId, (r) => r.testRunId === runId);
+        return state.reports.where(
+          organizationId,
+          (r) => r.testRunId === runId,
+        );
       },
       async create(report) {
         return state.reports.insert(report);
@@ -623,9 +632,17 @@ export function createMemoryDataStore(
 
     usage: {
       async getConsumed(organizationId, metric, periodStart) {
-        return state.usage.get(usageKey(organizationId, metric, periodStart)) ?? 0;
+        return (
+          state.usage.get(usageKey(organizationId, metric, periodStart)) ?? 0
+        );
       },
-      async increment(organizationId, metric, periodStart, _periodEnd, quantity) {
+      async increment(
+        organizationId,
+        metric,
+        periodStart,
+        _periodEnd,
+        quantity,
+      ) {
         const key = usageKey(organizationId, metric, periodStart);
         state.usage.set(key, (state.usage.get(key) ?? 0) + quantity);
       },

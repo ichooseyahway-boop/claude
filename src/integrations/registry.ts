@@ -8,6 +8,7 @@ import type {
   PdfRenderer,
   SecretStore,
 } from './contracts';
+import { anthropicEvaluatorProvider } from './anthropic/evaluator';
 import {
   noopAnalyticsProvider,
   unconfiguredAIProvider,
@@ -50,7 +51,13 @@ export function getProviders(): Providers {
   return {
     billing: overrides.billing ?? unconfiguredBillingProvider,
     email: overrides.email ?? unconfiguredEmailProvider,
-    ai: overrides.ai ?? unconfiguredAIProvider,
+    // The Anthropic adapter reports itself unconfigured without credentials, so
+    // selecting it here is safe in every environment.
+    ai:
+      overrides.ai ??
+      (anthropicEvaluatorProvider.isConfigured()
+        ? anthropicEvaluatorProvider
+        : unconfiguredAIProvider),
     storage: overrides.storage ?? unconfiguredFileStorageProvider,
     queue: overrides.queue ?? unconfiguredJobQueue,
     pdf: overrides.pdf ?? unconfiguredPdfRenderer,

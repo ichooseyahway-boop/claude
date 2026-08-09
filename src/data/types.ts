@@ -1,5 +1,9 @@
 import type { Dimension } from '@/domain/scoring/dimensions';
-import type { Confidence, FindingStatus, Severity } from '@/domain/findings/findings';
+import type {
+  Confidence,
+  FindingStatus,
+  Severity,
+} from '@/domain/findings/findings';
 import type { RunState } from '@/domain/runs/state-machine';
 import type { Entitlement } from '@/domain/entitlements/entitlements';
 import type { Locale } from '@/lib/i18n';
@@ -234,10 +238,7 @@ export interface TestRun {
 }
 
 export type CaptureMode =
-  | 'manual'
-  | 'customer_upload'
-  | 'api_adapter'
-  | 'browser_runner';
+  'manual' | 'customer_upload' | 'api_adapter' | 'browser_runner';
 
 export interface TestCase {
   id: string;
@@ -330,6 +331,14 @@ export interface Finding {
   dueDate: Date | null;
   humanConfirmedBy: string | null;
   seniorConfirmedBy: string | null;
+  /**
+   * Risk acceptance (FR-FND-004). All three are recorded together or not at
+   * all: acceptance without an identified accepter, a reason and a review date
+   * is not acceptance, it is an unattributed decision.
+   */
+  riskAcceptedBy: string | null;
+  riskAcceptedReason: string | null;
+  riskReviewDate: Date | null;
   evidence: FindingEvidenceRef[];
   createdAt: Date;
 }

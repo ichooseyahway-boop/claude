@@ -72,9 +72,9 @@ describe('role permissions', () => {
   it('lets a senior analyst approve and release', () => {
     expect(roleHasPermission('senior_analyst', 'plan.approve')).toBe(true);
     expect(roleHasPermission('senior_analyst', 'report.release')).toBe(true);
-    expect(roleHasPermission('senior_analyst', 'evaluation.senior_confirm')).toBe(
-      true,
-    );
+    expect(
+      roleHasPermission('senior_analyst', 'evaluation.senior_confirm'),
+    ).toBe(true);
   });
 
   it('keeps a billing administrator away from audit content', () => {
@@ -91,9 +91,9 @@ describe('role permissions', () => {
     expect(roleHasPermission('client_viewer', 'report.read_released')).toBe(
       true,
     );
-    expect(roleHasPermission('client_viewer', 'finding.update_remediation')).toBe(
-      false,
-    );
+    expect(
+      roleHasPermission('client_viewer', 'finding.update_remediation'),
+    ).toBe(false);
     expect(roleHasPermission('client_viewer', 'comment.write_customer')).toBe(
       false,
     );
@@ -153,12 +153,20 @@ describe('authorize', () => {
   });
 
   it('denies a caller with no membership in the organization', () => {
-    const result = authorize(actor('client_owner'), 'other_org', 'project.read');
+    const result = authorize(
+      actor('client_owner'),
+      'other_org',
+      'project.read',
+    );
     expect(result).toMatchObject({ allowed: false, code: 'NOT_A_MEMBER' });
   });
 
   it('does not reveal whether the organization exists', () => {
-    const result = authorize(actor('client_owner'), 'other_org', 'project.read');
+    const result = authorize(
+      actor('client_owner'),
+      'other_org',
+      'project.read',
+    );
     expect(result.allowed).toBe(false);
     if (!result.allowed) {
       // Same wording as an out-of-scope project, so the message cannot be used
@@ -223,9 +231,9 @@ describe('authorize', () => {
     const stale = actor('platform_owner', {
       authenticatedAt: new Date(NOW.getTime() - RECENT_AUTH_WINDOW_MS - 1000),
     });
-    expect(
-      authorize(stale, ORG, 'report.release', { now: NOW }),
-    ).toMatchObject({ allowed: false, code: 'REAUTH_REQUIRED' });
+    expect(authorize(stale, ORG, 'report.release', { now: NOW })).toMatchObject(
+      { allowed: false, code: 'REAUTH_REQUIRED' },
+    );
 
     // An ordinary read is unaffected by session age.
     expect(authorize(stale, ORG, 'project.read', { now: NOW }).allowed).toBe(

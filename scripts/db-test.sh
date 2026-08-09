@@ -46,6 +46,18 @@ if [[ -n "${DATABASE_URL:-}" ]]; then
   exit 0
 fi
 
+if [[ "$(id -u)" -eq 0 ]]; then
+  cat >&2 <<'MSG'
+ERROR: initdb refuses to run as root, so this script cannot start its temporary
+cluster. Either run it as an unprivileged user, or point it at an existing
+database:
+
+  su <user> -c './scripts/db-test.sh'
+  DATABASE_URL=postgres://... ./scripts/db-test.sh
+MSG
+  exit 1
+fi
+
 WORKDIR="$(mktemp -d /var/tmp/botassure-pgtest.XXXXXX)"
 cleanup() {
   "$PGBIN/pg_ctl" -D "$WORKDIR/pgdata" -s stop >/dev/null 2>&1 || true

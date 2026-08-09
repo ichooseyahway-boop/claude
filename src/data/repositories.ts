@@ -118,7 +118,10 @@ export interface ScenarioRepository {
   }): Promise<ScenarioTemplate[]>;
   findById(id: string): Promise<ScenarioTemplate | null>;
   /** Highest published version of a family in a locale. */
-  findLatest(familyId: string, locale: string): Promise<ScenarioTemplate | null>;
+  findLatest(
+    familyId: string,
+    locale: string,
+  ): Promise<ScenarioTemplate | null>;
   create(template: ScenarioTemplate): Promise<ScenarioTemplate>;
 }
 
@@ -144,10 +147,7 @@ export interface AuditPlanRepository {
 
 export interface RunRepository {
   findById(organizationId: string, runId: string): Promise<TestRun | null>;
-  listForProject(
-    organizationId: string,
-    projectId: string,
-  ): Promise<TestRun[]>;
+  listForProject(organizationId: string, projectId: string): Promise<TestRun[]>;
   create(run: TestRun): Promise<TestRun>;
   update(
     organizationId: string,
@@ -201,10 +201,7 @@ export interface EvaluationRepository {
 export interface FindingRepository {
   findById(organizationId: string, findingId: string): Promise<Finding | null>;
   listForRun(organizationId: string, runId: string): Promise<Finding[]>;
-  listForProject(
-    organizationId: string,
-    projectId: string,
-  ): Promise<Finding[]>;
+  listForProject(organizationId: string, projectId: string): Promise<Finding[]>;
   create(finding: Finding): Promise<Finding>;
   update(
     organizationId: string,
