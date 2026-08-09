@@ -13,7 +13,9 @@ import { z } from 'zod';
  */
 
 const ServerEnvSchema = z.object({
-  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  NODE_ENV: z
+    .enum(['development', 'test', 'production'])
+    .default('development'),
 
   // Database / auth
   NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),

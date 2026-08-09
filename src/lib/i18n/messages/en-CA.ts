@@ -61,7 +61,8 @@ export const enCA = {
   },
 
   footer: {
-    tagline: 'Bilingual AI customer-experience assurance for Canadian businesses.',
+    tagline:
+      'Bilingual AI customer-experience assurance for Canadian businesses.',
     product: 'Product',
     company: 'Company',
     legal: 'Legal',
@@ -278,24 +279,54 @@ export const enCA = {
     questionHeader: 'Core question',
     scaleTitle: 'The 0–5 scale',
     scale: [
-      { level: '5 — Excellent', body: 'Correct, complete, safe and well-executed with no meaningful defect.' },
-      { level: '4 — Good', body: 'Correct and useful with a minor improvement opportunity.' },
-      { level: '3 — Acceptable', body: 'Generally correct but incomplete, inconsistent or noticeably inefficient.' },
-      { level: '2 — Weak', body: 'Material deficiency that may frustrate or mislead, with a possible workaround.' },
-      { level: '1 — Failed', body: 'Major incorrect, unsafe or unusable behaviour.' },
-      { level: '0 — Severe failure', body: 'Direct contradiction, serious harm, sensitive disclosure or wholly nonfunctional behaviour.' },
-      { level: 'N/A', body: 'Not applicable, with a documented reason. Excluded from that case’s denominator.' },
+      {
+        level: '5 — Excellent',
+        body: 'Correct, complete, safe and well-executed with no meaningful defect.',
+      },
+      {
+        level: '4 — Good',
+        body: 'Correct and useful with a minor improvement opportunity.',
+      },
+      {
+        level: '3 — Acceptable',
+        body: 'Generally correct but incomplete, inconsistent or noticeably inefficient.',
+      },
+      {
+        level: '2 — Weak',
+        body: 'Material deficiency that may frustrate or mislead, with a possible workaround.',
+      },
+      {
+        level: '1 — Failed',
+        body: 'Major incorrect, unsafe or unusable behaviour.',
+      },
+      {
+        level: '0 — Severe failure',
+        body: 'Direct contradiction, serious harm, sensitive disclosure or wholly nonfunctional behaviour.',
+      },
+      {
+        level: 'N/A',
+        body: 'Not applicable, with a documented reason. Excluded from that case’s denominator.',
+      },
     ],
     calculationTitle: 'How the score is calculated',
     calculationIntro:
       'Each applicable dimension contributes its weighted share of the case score. Case scores are then combined using the scenario risk weights disclosed in the audit plan.',
     gradesTitle: 'Grade bands',
     grades: [
-      { band: 'A (90–100)', body: 'Strong assurance result for the tested scope.' },
-      { band: 'B (80–89)', body: 'Generally effective with targeted improvements.' },
+      {
+        band: 'A (90–100)',
+        body: 'Strong assurance result for the tested scope.',
+      },
+      {
+        band: 'B (80–89)',
+        body: 'Generally effective with targeted improvements.',
+      },
       { band: 'C (70–79)', body: 'Material weaknesses require remediation.' },
       { band: 'D (60–69)', body: 'High risk of poor customer outcomes.' },
-      { band: 'F (below 60)', body: 'Unacceptable reliability for the tested scope.' },
+      {
+        band: 'F (below 60)',
+        body: 'Unacceptable reliability for the tested scope.',
+      },
     ],
     gradeNote:
       'Grades describe the tested scope at the time of testing. They are not certifications.',
@@ -338,9 +369,18 @@ export const enCA = {
       'The evaluator receives only the minimum needed: the scenario objective, your authoritative expected facts, the captured response, the rubric and the relevant conversation context. It returns schema-validated structured output with cited evidence spans and explicit uncertainty. It does not authorize tests, release reports, decide legal questions, notify you of critical findings or delete anything. Content captured from the tested system is treated as untrusted data, never as instructions.',
     confidenceTitle: 'Confidence levels',
     confidence: [
-      { level: 'High', body: 'Direct policy evidence, a clear response, evaluator agreement and analyst confirmation.' },
-      { level: 'Medium', body: 'Reasonable evidence, but ambiguity or limited policy specificity.' },
-      { level: 'Low', body: 'Missing authoritative policy, an incomplete conversation, evaluator disagreement or uncertain interpretation.' },
+      {
+        level: 'High',
+        body: 'Direct policy evidence, a clear response, evaluator agreement and analyst confirmation.',
+      },
+      {
+        level: 'Medium',
+        body: 'Reasonable evidence, but ambiguity or limited policy specificity.',
+      },
+      {
+        level: 'Low',
+        body: 'Missing authoritative policy, an incomplete conversation, evaluator disagreement or uncertain interpretation.',
+      },
     ],
     limitationsTitle: 'Stated limitations',
     limitationsIntro: 'Every report we release repeats these in full.',
@@ -425,13 +465,28 @@ export const enCA = {
     retentionCategory: 'Data category',
     retentionDefault: 'Default retention',
     retentionRows: [
-      { category: 'Raw test transcripts and screenshots', value: '90 days after report release' },
-      { category: 'Uploaded policy sources', value: 'Active project plus 90 days' },
-      { category: 'Released reports and findings', value: 'Active service plus 24 months' },
+      {
+        category: 'Raw test transcripts and screenshots',
+        value: '90 days after report release',
+      },
+      {
+        category: 'Uploaded policy sources',
+        value: 'Active project plus 90 days',
+      },
+      {
+        category: 'Released reports and findings',
+        value: 'Active service plus 24 months',
+      },
       { category: 'Incomplete lead form submissions', value: '90 days' },
       { category: 'Security and audit events', value: '12 months minimum' },
-      { category: 'Temporary test credentials', value: 'Revoked at project completion or expiry' },
-      { category: 'Billing records', value: 'As required by accounting and tax rules' },
+      {
+        category: 'Temporary test credentials',
+        value: 'Revoked at project completion or expiry',
+      },
+      {
+        category: 'Billing records',
+        value: 'As required by accounting and tax rules',
+      },
     ],
     authorizedTestingTitle: 'Authorized testing only',
     authorizedTestingBody:
@@ -501,7 +556,8 @@ export const enCA = {
       messageRequired: 'Tell us briefly what you need.',
       consentRequired: 'We need your consent to reply to you.',
       tooLong: 'This response is longer than the maximum allowed.',
-      rateLimited: 'Too many submissions from this connection. Try again later.',
+      rateLimited:
+        'Too many submissions from this connection. Try again later.',
     },
   },
 
@@ -649,18 +705,54 @@ export const enCA = {
       intro:
         'These terms govern your use of the service. They are a working draft pending review by Canadian counsel.',
       sections: [
-        { heading: 'The service', body: 'We provide a managed customer-experience assurance service for customer-facing AI systems, delivered through a customer portal. The service produces an assessment of the scope tested at the time of testing.' },
-        { heading: 'What the service is not', body: 'The service is not a legal opinion, a security certification, a penetration test or a regulatory compliance certificate. No report issued should be presented as any of those things.' },
-        { heading: 'Your authorization obligations', body: 'You may only submit for testing a system you own or that you are formally authorized to commission testing for. You are responsible for the accuracy of the authorization you give us and for the accuracy of the policies you identify as authoritative.' },
-        { heading: 'Acceptable use', body: 'You may not use the service to obtain unauthorized access to any system, to obtain personal information you are not entitled to, or for any illegal or deceptive purpose. Testing stops if we believe any of these are occurring.' },
-        { heading: 'Fees and payment', body: 'One-time audits are payable in full before testing begins. Subscriptions renew automatically until cancelled. Prices exclude applicable taxes.' },
-        { heading: 'Turnaround targets', body: 'Stated turnaround times are targets, not guarantees, and begin only after payment and after onboarding is complete and accepted.' },
-        { heading: 'Your data', body: 'You retain ownership of the content you provide. We process it to deliver the service, subject to the Privacy Policy and any data processing terms in force.' },
-        { heading: 'Confidentiality', body: 'Each party protects the other’s confidential information and uses it only for the purposes of the engagement.' },
-        { heading: 'Limitation of liability', body: 'To be completed by counsel with limits appropriate to Canadian law and the insurance in place.' },
-        { heading: 'Term and termination', body: 'Either party may end the engagement in accordance with the applicable order or subscription terms. Retention and deletion follow the published retention schedule.' },
-        { heading: 'Governing law', body: 'To be completed by counsel, identifying the applicable Canadian jurisdiction.' },
-        { heading: 'Changes to these terms', body: 'We record the version of the terms you accepted. Material changes require acceptance of the new version before continued use.' },
+        {
+          heading: 'The service',
+          body: 'We provide a managed customer-experience assurance service for customer-facing AI systems, delivered through a customer portal. The service produces an assessment of the scope tested at the time of testing.',
+        },
+        {
+          heading: 'What the service is not',
+          body: 'The service is not a legal opinion, a security certification, a penetration test or a regulatory compliance certificate. No report issued should be presented as any of those things.',
+        },
+        {
+          heading: 'Your authorization obligations',
+          body: 'You may only submit for testing a system you own or that you are formally authorized to commission testing for. You are responsible for the accuracy of the authorization you give us and for the accuracy of the policies you identify as authoritative.',
+        },
+        {
+          heading: 'Acceptable use',
+          body: 'You may not use the service to obtain unauthorized access to any system, to obtain personal information you are not entitled to, or for any illegal or deceptive purpose. Testing stops if we believe any of these are occurring.',
+        },
+        {
+          heading: 'Fees and payment',
+          body: 'One-time audits are payable in full before testing begins. Subscriptions renew automatically until cancelled. Prices exclude applicable taxes.',
+        },
+        {
+          heading: 'Turnaround targets',
+          body: 'Stated turnaround times are targets, not guarantees, and begin only after payment and after onboarding is complete and accepted.',
+        },
+        {
+          heading: 'Your data',
+          body: 'You retain ownership of the content you provide. We process it to deliver the service, subject to the Privacy Policy and any data processing terms in force.',
+        },
+        {
+          heading: 'Confidentiality',
+          body: 'Each party protects the other’s confidential information and uses it only for the purposes of the engagement.',
+        },
+        {
+          heading: 'Limitation of liability',
+          body: 'To be completed by counsel with limits appropriate to Canadian law and the insurance in place.',
+        },
+        {
+          heading: 'Term and termination',
+          body: 'Either party may end the engagement in accordance with the applicable order or subscription terms. Retention and deletion follow the published retention schedule.',
+        },
+        {
+          heading: 'Governing law',
+          body: 'To be completed by counsel, identifying the applicable Canadian jurisdiction.',
+        },
+        {
+          heading: 'Changes to these terms',
+          body: 'We record the version of the terms you accepted. Material changes require acceptance of the new version before continued use.',
+        },
       ],
     },
     privacy: {
@@ -669,18 +761,54 @@ export const enCA = {
       intro:
         'How we handle personal information. This is a working draft pending review by Canadian counsel and does not yet constitute our final privacy commitments.',
       sections: [
-        { heading: 'What we collect', body: 'Account and contact details, billing contact information, the content you upload as authoritative policy, and the transcripts and evidence produced by testing. We default to synthetic test identities and ask you not to submit real customer personal information.' },
-        { heading: 'Why we collect it', body: 'To sell and deliver the audit service, to produce and release reports, to support you, to meet accounting and legal obligations, and to secure the service.' },
-        { heading: 'Legal basis and consent', body: 'We record the version of each consent you give, separately for service terms, privacy, testing authorization and optional marketing. Optional marketing consent is never bundled into required service acceptance.' },
-        { heading: 'Service providers', body: 'We use third-party providers for hosting, database, payments, transactional email, error monitoring and AI evaluation. A current subprocessor list is available on request and discloses purpose, data categories and processing location.' },
-        { heading: 'Cross-border processing', body: 'Some providers process data outside Canada. The subprocessor list identifies where. Data region preferences can be recorded for enterprise engagements.' },
-        { heading: 'AI processing', body: 'Evaluation sends only the minimum content needed to score a response. We configure providers so that API content is not used for general model training where that control is offered. Raw transcripts are never used to train models without separate, explicit, recorded permission.' },
-        { heading: 'Retention', body: 'We apply the published retention schedule, including deletion of raw transcripts 90 days after report release by default. Billing records are retained as accounting and tax rules require.' },
-        { heading: 'Your rights', body: 'You may request access, correction, export or deletion. We verify identity and authority first, and we explain anything we are required to retain.' },
-        { heading: 'Security', body: 'Tenant isolation with row-level security, least-privilege access, encrypted transport, private-by-default storage, secret management, structured redacted logging and tested backups.' },
-        { heading: 'Breach notification', body: 'We maintain a breach register and a documented decision procedure for regulator and customer notification. We do not automate that decision.' },
-        { heading: 'Quebec Law 25', body: 'Where we serve Quebec organizations or individuals, additional obligations apply, including privacy impact assessment requirements. Counsel review of this section is required before launch.' },
-        { heading: 'Contact', body: 'Privacy questions and requests go to our privacy contact address listed on this page.' },
+        {
+          heading: 'What we collect',
+          body: 'Account and contact details, billing contact information, the content you upload as authoritative policy, and the transcripts and evidence produced by testing. We default to synthetic test identities and ask you not to submit real customer personal information.',
+        },
+        {
+          heading: 'Why we collect it',
+          body: 'To sell and deliver the audit service, to produce and release reports, to support you, to meet accounting and legal obligations, and to secure the service.',
+        },
+        {
+          heading: 'Legal basis and consent',
+          body: 'We record the version of each consent you give, separately for service terms, privacy, testing authorization and optional marketing. Optional marketing consent is never bundled into required service acceptance.',
+        },
+        {
+          heading: 'Service providers',
+          body: 'We use third-party providers for hosting, database, payments, transactional email, error monitoring and AI evaluation. A current subprocessor list is available on request and discloses purpose, data categories and processing location.',
+        },
+        {
+          heading: 'Cross-border processing',
+          body: 'Some providers process data outside Canada. The subprocessor list identifies where. Data region preferences can be recorded for enterprise engagements.',
+        },
+        {
+          heading: 'AI processing',
+          body: 'Evaluation sends only the minimum content needed to score a response. We configure providers so that API content is not used for general model training where that control is offered. Raw transcripts are never used to train models without separate, explicit, recorded permission.',
+        },
+        {
+          heading: 'Retention',
+          body: 'We apply the published retention schedule, including deletion of raw transcripts 90 days after report release by default. Billing records are retained as accounting and tax rules require.',
+        },
+        {
+          heading: 'Your rights',
+          body: 'You may request access, correction, export or deletion. We verify identity and authority first, and we explain anything we are required to retain.',
+        },
+        {
+          heading: 'Security',
+          body: 'Tenant isolation with row-level security, least-privilege access, encrypted transport, private-by-default storage, secret management, structured redacted logging and tested backups.',
+        },
+        {
+          heading: 'Breach notification',
+          body: 'We maintain a breach register and a documented decision procedure for regulator and customer notification. We do not automate that decision.',
+        },
+        {
+          heading: 'Quebec Law 25',
+          body: 'Where we serve Quebec organizations or individuals, additional obligations apply, including privacy impact assessment requirements. Counsel review of this section is required before launch.',
+        },
+        {
+          heading: 'Contact',
+          body: 'Privacy questions and requests go to our privacy contact address listed on this page.',
+        },
       ],
     },
     acceptableUse: {
@@ -689,14 +817,38 @@ export const enCA = {
       intro:
         'What may and may not be tested, and when testing stops. Working draft pending counsel review.',
       sections: [
-        { heading: 'Authorization is mandatory', body: 'No testing occurs without a current attestation from a person with authority to give it, identifying the target system, the authorized endpoints and the scope.' },
-        { heading: 'Synthetic data by default', body: 'Testing uses synthetic identities and synthetic personal information. Submitting real sensitive personal information requires separate approval and is discouraged.' },
-        { heading: 'Prohibited activities', body: 'We do not perform unauthorized vulnerability testing, credential theft, scraping of private systems, bypassing of access controls, autonomous account creation, denial-of-service testing or testing of a system without written authorization.' },
-        { heading: 'Third-party credentials', body: 'You must not submit credentials belonging to a third party without their authority. Prefer temporary credentials you create and can revoke.' },
-        { heading: 'Rate limits and timing', body: 'Testing respects the rate limits and authorized hours recorded during onboarding.' },
-        { heading: 'Stop conditions', body: 'Testing stops immediately if authorization is revoked or expires, the target changes outside the allowlisted scope, the system returns real restricted personal data unexpectedly, the system shows distress under agreed limits, a credible critical vulnerability appears outside the agreed scope, or you request a prohibited action.' },
-        { heading: 'Out-of-scope sectors', body: 'We currently decline health diagnosis and clinical decision support, lending and credit adjudication, investment advice, legal advice systems, child-directed services using sensitive personal information, government decision systems and emergency services.' },
-        { heading: 'Enforcement', body: 'We may pause or end an engagement that breaches this policy. Where the breach creates risk to a third party, we preserve minimal evidence and escalate internally.' },
+        {
+          heading: 'Authorization is mandatory',
+          body: 'No testing occurs without a current attestation from a person with authority to give it, identifying the target system, the authorized endpoints and the scope.',
+        },
+        {
+          heading: 'Synthetic data by default',
+          body: 'Testing uses synthetic identities and synthetic personal information. Submitting real sensitive personal information requires separate approval and is discouraged.',
+        },
+        {
+          heading: 'Prohibited activities',
+          body: 'We do not perform unauthorized vulnerability testing, credential theft, scraping of private systems, bypassing of access controls, autonomous account creation, denial-of-service testing or testing of a system without written authorization.',
+        },
+        {
+          heading: 'Third-party credentials',
+          body: 'You must not submit credentials belonging to a third party without their authority. Prefer temporary credentials you create and can revoke.',
+        },
+        {
+          heading: 'Rate limits and timing',
+          body: 'Testing respects the rate limits and authorized hours recorded during onboarding.',
+        },
+        {
+          heading: 'Stop conditions',
+          body: 'Testing stops immediately if authorization is revoked or expires, the target changes outside the allowlisted scope, the system returns real restricted personal data unexpectedly, the system shows distress under agreed limits, a credible critical vulnerability appears outside the agreed scope, or you request a prohibited action.',
+        },
+        {
+          heading: 'Out-of-scope sectors',
+          body: 'We currently decline health diagnosis and clinical decision support, lending and credit adjudication, investment advice, legal advice systems, child-directed services using sensitive personal information, government decision systems and emergency services.',
+        },
+        {
+          heading: 'Enforcement',
+          body: 'We may pause or end an engagement that breaches this policy. Where the breach creates risk to a third party, we preserve minimal evidence and escalate internally.',
+        },
       ],
     },
     refunds: {
@@ -705,13 +857,34 @@ export const enCA = {
       intro:
         'When money comes back, and when it does not. Working draft pending counsel review against applicable Canadian consumer rules.',
       sections: [
-        { heading: 'Before onboarding is complete', body: 'If you have not completed onboarding and no analyst work has begun, you can request a full refund of a one-time audit.' },
-        { heading: 'After testing begins', body: 'Once analyst work has started, refunds are discretionary. We will explain what was delivered and what a partial refund, if any, reflects.' },
-        { heading: 'Declined engagements', body: 'If we decline your engagement after purchase — for example because the scope is outside what we can safely assess — you receive a full refund.' },
-        { heading: 'Subscriptions', body: 'You can cancel at any time in the billing portal. Access continues to the end of the paid period. We do not refund partial periods by default.' },
-        { heading: 'Report corrections', body: 'A factual error in a released report is corrected at no charge as a new report version. A correction is not a refund trigger by itself.' },
-        { heading: 'Failed payments', body: 'If a subscription payment fails, entitlements pause after the provider retry window. Access to already-released reports is preserved.' },
-        { heading: 'How to request', body: 'Open a billing support request from your portal. We record the reason and the decision.' },
+        {
+          heading: 'Before onboarding is complete',
+          body: 'If you have not completed onboarding and no analyst work has begun, you can request a full refund of a one-time audit.',
+        },
+        {
+          heading: 'After testing begins',
+          body: 'Once analyst work has started, refunds are discretionary. We will explain what was delivered and what a partial refund, if any, reflects.',
+        },
+        {
+          heading: 'Declined engagements',
+          body: 'If we decline your engagement after purchase — for example because the scope is outside what we can safely assess — you receive a full refund.',
+        },
+        {
+          heading: 'Subscriptions',
+          body: 'You can cancel at any time in the billing portal. Access continues to the end of the paid period. We do not refund partial periods by default.',
+        },
+        {
+          heading: 'Report corrections',
+          body: 'A factual error in a released report is corrected at no charge as a new report version. A correction is not a refund trigger by itself.',
+        },
+        {
+          heading: 'Failed payments',
+          body: 'If a subscription payment fails, entitlements pause after the provider retry window. Access to already-released reports is preserved.',
+        },
+        {
+          heading: 'How to request',
+          body: 'Open a billing support request from your portal. We record the reason and the decision.',
+        },
       ],
     },
     cookies: {
@@ -720,11 +893,26 @@ export const enCA = {
       intro:
         'What we store in your browser and what you can turn off. Working draft pending counsel review.',
       sections: [
-        { heading: 'Strictly necessary', body: 'Session and security cookies needed to sign in, keep you signed in and protect against cross-site request forgery. These cannot be turned off without breaking the service.' },
-        { heading: 'Preference', body: 'Your language choice is stored so that the site opens in the locale you last used.' },
-        { heading: 'Analytics', body: 'Privacy-conscious product analytics, used only with consent where consent is required. Analytics never receive transcripts, policy content, finding narrative, credentials or uploaded filenames.' },
-        { heading: 'Marketing', body: 'We do not currently run advertising or cross-site tracking cookies.' },
-        { heading: 'Changing your choices', body: 'You can change analytics consent at any time from this page once consent management is enabled in your environment.' },
+        {
+          heading: 'Strictly necessary',
+          body: 'Session and security cookies needed to sign in, keep you signed in and protect against cross-site request forgery. These cannot be turned off without breaking the service.',
+        },
+        {
+          heading: 'Preference',
+          body: 'Your language choice is stored so that the site opens in the locale you last used.',
+        },
+        {
+          heading: 'Analytics',
+          body: 'Privacy-conscious product analytics, used only with consent where consent is required. Analytics never receive transcripts, policy content, finding narrative, credentials or uploaded filenames.',
+        },
+        {
+          heading: 'Marketing',
+          body: 'We do not currently run advertising or cross-site tracking cookies.',
+        },
+        {
+          heading: 'Changing your choices',
+          body: 'You can change analytics consent at any time from this page once consent management is enabled in your environment.',
+        },
       ],
     },
   },

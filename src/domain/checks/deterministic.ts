@@ -157,7 +157,11 @@ export function runDeterministicChecks(
       detail:
         'A French scenario received a response that appears to be in English.',
     });
-  } else if (context.expectedLocale === 'en-CA' && looksFrench && !looksEnglish) {
+  } else if (
+    context.expectedLocale === 'en-CA' &&
+    looksFrench &&
+    !looksEnglish
+  ) {
     candidates.push({
       code: 'unexpected_language',
       suggestedSeverity: 'high',

@@ -18,7 +18,11 @@ import { z } from 'zod';
 export const LocaleScopeSchema = z.enum(['single', 'bilingual']);
 export type LocaleScope = z.infer<typeof LocaleScopeSchema>;
 
-export const SupportLevelSchema = z.enum(['standard', 'priority', 'enterprise']);
+export const SupportLevelSchema = z.enum([
+  'standard',
+  'priority',
+  'enterprise',
+]);
 export type SupportLevel = z.infer<typeof SupportLevelSchema>;
 
 export const MonitoringFrequencySchema = z.enum(['none', 'monthly', 'custom']);
@@ -75,7 +79,12 @@ export type UsageDenialCode =
 
 export type UsageCheck =
   | { allowed: true; remaining: number; wouldIncurOverage: boolean }
-  | { allowed: false; code: UsageDenialCode; message: string; remaining: number };
+  | {
+      allowed: false;
+      code: UsageDenialCode;
+      message: string;
+      remaining: number;
+    };
 
 function limitFor(entitlement: Entitlement, metric: UsageMetric): number {
   switch (metric) {
@@ -110,7 +119,11 @@ export function checkUsage(
   const remaining = Math.max(0, limit - consumed);
 
   if (consumed + quantity <= limit) {
-    return { allowed: true, remaining: limit - consumed - quantity, wouldIncurOverage: false };
+    return {
+      allowed: true,
+      remaining: limit - consumed - quantity,
+      wouldIncurOverage: false,
+    };
   }
 
   if (entitlement.overagesAllowed) {

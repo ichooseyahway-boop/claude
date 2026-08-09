@@ -38,8 +38,7 @@ export async function generateMetadata({
     path: `/legal/${document}`,
     title: copy.metaTitle,
     // Unapproved drafts must not be indexed and presented as our terms.
-    noIndex:
-      LEGAL_DOCUMENTS_REGISTER[document].approvalStatus !== 'APPROVED',
+    noIndex: LEGAL_DOCUMENTS_REGISTER[document].approvalStatus !== 'APPROVED',
   });
 }
 

@@ -127,10 +127,7 @@ function hostMatchesAllowlist(
 /**
  * Validate an outbound URL against a project's authorization policy.
  */
-export function checkOutboundUrl(
-  rawUrl: string,
-  policy: UrlPolicy,
-): UrlCheck {
+export function checkOutboundUrl(rawUrl: string, policy: UrlPolicy): UrlCheck {
   let url: URL;
   try {
     url = new URL(rawUrl);

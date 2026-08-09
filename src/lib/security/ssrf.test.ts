@@ -77,10 +77,12 @@ describe('checkOutboundUrl', () => {
   });
 
   it('refuses a host outside the authorized scope', () => {
-    expect(checkOutboundUrl('https://evil.example.com/', policy)).toMatchObject({
-      allowed: false,
-      code: 'HOST_NOT_ALLOWLISTED',
-    });
+    expect(checkOutboundUrl('https://evil.example.com/', policy)).toMatchObject(
+      {
+        allowed: false,
+        code: 'HOST_NOT_ALLOWLISTED',
+      },
+    );
   });
 
   it('refuses the metadata service even if somebody allowlists it', () => {
@@ -118,9 +120,9 @@ describe('checkOutboundUrl', () => {
   });
 
   it('requires HTTPS in production policy', () => {
-    expect(checkOutboundUrl('http://api.example.ca/chat', policy)).toMatchObject(
-      { allowed: false, code: 'HTTPS_REQUIRED' },
-    );
+    expect(
+      checkOutboundUrl('http://api.example.ca/chat', policy),
+    ).toMatchObject({ allowed: false, code: 'HTTPS_REQUIRED' });
   });
 
   it('refuses non-HTTP schemes', () => {

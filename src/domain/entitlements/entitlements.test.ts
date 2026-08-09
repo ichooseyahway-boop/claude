@@ -30,8 +30,12 @@ describe('package catalogue', () => {
 
   it('matches the PRD reference prices and inclusions', () => {
     expect(getPackage('essential_audit').referenceAmountMinor).toBe(49_500);
-    expect(getPackage('bilingual_pro_audit').referenceAmountMinor).toBe(175_000);
-    expect(getPackage('continuous_assurance').referenceAmountMinor).toBe(69_900);
+    expect(getPackage('bilingual_pro_audit').referenceAmountMinor).toBe(
+      175_000,
+    );
+    expect(getPackage('continuous_assurance').referenceAmountMinor).toBe(
+      69_900,
+    );
 
     expect(essential.scenariosPerCycle).toBe(25);
     expect(essential.maxPrioritizedFindings).toBe(5);
@@ -60,12 +64,20 @@ describe('package catalogue', () => {
 
 describe('checkUsage', () => {
   it('allows consumption within the plan limit', () => {
-    const result = checkUsage(essential, usageWith({ scenarios: 24 }), 'scenarios');
+    const result = checkUsage(
+      essential,
+      usageWith({ scenarios: 24 }),
+      'scenarios',
+    );
     expect(result).toMatchObject({ allowed: true, wouldIncurOverage: false });
   });
 
   it('blocks the unit that would exceed a plan with no overage', () => {
-    const result = checkUsage(essential, usageWith({ scenarios: 25 }), 'scenarios');
+    const result = checkUsage(
+      essential,
+      usageWith({ scenarios: 25 }),
+      'scenarios',
+    );
     expect(result).toMatchObject({
       allowed: false,
       code: 'ENTITLEMENT_EXHAUSTED',
@@ -93,7 +105,11 @@ describe('checkUsage', () => {
   });
 
   it('reports remaining capacity for the operations UI', () => {
-    const result = checkUsage(essential, usageWith({ scenarios: 10 }), 'scenarios');
+    const result = checkUsage(
+      essential,
+      usageWith({ scenarios: 10 }),
+      'scenarios',
+    );
     expect(result).toMatchObject({ allowed: true, remaining: 14 });
   });
 });

@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  runDeterministicChecks,
-  type CheckContext,
-} from './deterministic';
+import { runDeterministicChecks, type CheckContext } from './deterministic';
 
 const base: CheckContext = {
   responseText:
@@ -76,13 +73,13 @@ describe('runDeterministicChecks', () => {
   });
 
   it('applies customer must-include and must-not-include rules', () => {
-    expect(
-      codes({ ...base, mustInclude: ['order number'] }),
-    ).toContain('must_include_rule_failed');
+    expect(codes({ ...base, mustInclude: ['order number'] })).toContain(
+      'must_include_rule_failed',
+    );
 
-    expect(
-      codes({ ...base, mustNotInclude: ['refund'] }),
-    ).toContain('must_not_include_rule_failed');
+    expect(codes({ ...base, mustNotInclude: ['refund'] })).toContain(
+      'must_not_include_rule_failed',
+    );
   });
 
   it('flags a missing escalation path when the scenario requires one', () => {
@@ -138,7 +135,9 @@ describe('runDeterministicChecks', () => {
   });
 
   it('flags excessive latency against the scenario threshold', () => {
-    expect(codes({ ...base, latencyMs: 20_000 })).toContain('excessive_latency');
+    expect(codes({ ...base, latencyMs: 20_000 })).toContain(
+      'excessive_latency',
+    );
     expect(
       codes({ ...base, latencyMs: 6_000, latencyThresholdMs: 5_000 }),
     ).toContain('excessive_latency');
@@ -148,9 +147,9 @@ describe('runDeterministicChecks', () => {
     expect(codes({ ...base, responseText: 'Yes.' })).toContain(
       'response_length_extreme',
     );
-    expect(
-      codes({ ...base, responseText: 'a'.repeat(9000) }),
-    ).toContain('response_length_extreme');
+    expect(codes({ ...base, responseText: 'a'.repeat(9000) })).toContain(
+      'response_length_extreme',
+    );
   });
 
   it('flags a malformed link but accepts a valid one', () => {

@@ -52,17 +52,17 @@ describe('containsSensitiveValue', () => {
   it('detects provider secrets and tokens by shape', () => {
     expect(containsSensitiveValue('sk_live_abcdef1234567890')).toBe(true);
     expect(containsSensitiveValue('whsec_abcdef1234567890')).toBe(true);
-    expect(
-      containsSensitiveValue('Bearer abcdefghijklmnopqrstuvwxyz'),
-    ).toBe(true);
+    expect(containsSensitiveValue('Bearer abcdefghijklmnopqrstuvwxyz')).toBe(
+      true,
+    );
     expect(
       containsSensitiveValue(
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.payloadpayload',
       ),
     ).toBe(true);
-    expect(
-      containsSensitiveValue('-----BEGIN RSA PRIVATE KEY-----'),
-    ).toBe(true);
+    expect(containsSensitiveValue('-----BEGIN RSA PRIVATE KEY-----')).toBe(
+      true,
+    );
   });
 
   it('does not flag ordinary text', () => {

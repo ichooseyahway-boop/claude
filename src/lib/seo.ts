@@ -1,11 +1,6 @@
 import type { Metadata } from 'next';
 import { brand } from '@/config/brand';
-import {
-  LOCALES,
-  getMessages,
-  localizedPath,
-  type Locale,
-} from '@/lib/i18n';
+import { LOCALES, getMessages, localizedPath, type Locale } from '@/lib/i18n';
 
 /**
  * Per-page metadata.

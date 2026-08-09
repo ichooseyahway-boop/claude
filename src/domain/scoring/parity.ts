@@ -14,10 +14,7 @@
 export const MINIMUM_MATCHED_PAIRS = 10;
 
 export type ParityBand =
-  | 'equivalent'
-  | 'minor_inconsistency'
-  | 'material_gap'
-  | 'severe_inequity';
+  'equivalent' | 'minor_inconsistency' | 'material_gap' | 'severe_inequity';
 
 export interface MatchedPair {
   pairId: string;

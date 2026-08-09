@@ -1,12 +1,13 @@
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { FlatCompat } from '@eslint/eslintrc';
+import coreWebVitals from 'eslint-config-next/core-web-vitals';
+import nextTypescript from 'eslint-config-next/typescript';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({ baseDirectory: __dirname });
-
+/**
+ * ESLint flat configuration.
+ *
+ * `eslint-config-next` v16 exports flat configs directly, so they are spread in
+ * rather than wrapped in FlatCompat (the legacy shim throws on this config's
+ * circular plugin references).
+ */
 const config = [
   {
     ignores: [
@@ -17,7 +18,8 @@ const config = [
       'next-env.d.ts',
     ],
   },
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...coreWebVitals,
+  ...nextTypescript,
   {
     rules: {
       // PRD 1.1.1: `any` is prohibited outside documented adapter boundaries.
@@ -26,6 +28,8 @@ const config = [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+      // Application logging goes through safeLogPayload; console.warn/error are
+      // the transport for those structured lines (PRD 21.3).
       'no-console': ['error', { allow: ['warn', 'error'] }],
       eqeqeq: ['error', 'always'],
     },

@@ -1,5 +1,10 @@
 import { notFound } from 'next/navigation';
-import { getMessages, localeFromSegment, type Locale, type Messages } from './index';
+import {
+  getMessages,
+  localeFromSegment,
+  type Locale,
+  type Messages,
+} from './index';
 
 /**
  * Resolve the locale for a page from its route params.

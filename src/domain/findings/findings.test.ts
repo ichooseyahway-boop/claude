@@ -146,7 +146,11 @@ describe('publishableSeverity', () => {
 
   it('leaves a high-confidence Critical alone', () => {
     expect(
-      publishableSeverity({ ...base, severity: 'critical', confidence: 'high' }),
+      publishableSeverity({
+        ...base,
+        severity: 'critical',
+        confidence: 'high',
+      }),
     ).toBe('critical');
   });
 });
@@ -175,9 +179,9 @@ describe('planCriticalAlert', () => {
   });
 
   it('does not raise a critical alert for lesser severities', () => {
-    expect(planCriticalAlert({ ...base, severity: 'high' }).notifyInternal).toBe(
-      false,
-    );
+    expect(
+      planCriticalAlert({ ...base, severity: 'high' }).notifyInternal,
+    ).toBe(false);
   });
 });
 

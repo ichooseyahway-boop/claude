@@ -282,24 +282,60 @@ export const frCA: Messages = {
     questionHeader: 'Question centrale',
     scaleTitle: 'L’échelle de 0 à 5',
     scale: [
-      { level: '5 — Excellent', body: 'Juste, complet, sûr et bien exécuté, sans défaut significatif.' },
-      { level: '4 — Bon', body: 'Juste et utile, avec une possibilité mineure d’amélioration.' },
-      { level: '3 — Acceptable', body: 'Généralement juste, mais incomplet, incohérent ou nettement inefficace.' },
-      { level: '2 — Faible', body: 'Lacune importante pouvant frustrer ou induire en erreur, avec contournement possible.' },
-      { level: '1 — Échec', body: 'Comportement majeur incorrect, dangereux ou inutilisable.' },
-      { level: '0 — Échec grave', body: 'Contradiction directe, préjudice sérieux, divulgation sensible ou comportement totalement non fonctionnel.' },
-      { level: 'S. O.', body: 'Sans objet, avec motif documenté. Exclue du dénominateur de ce cas.' },
+      {
+        level: '5 — Excellent',
+        body: 'Juste, complet, sûr et bien exécuté, sans défaut significatif.',
+      },
+      {
+        level: '4 — Bon',
+        body: 'Juste et utile, avec une possibilité mineure d’amélioration.',
+      },
+      {
+        level: '3 — Acceptable',
+        body: 'Généralement juste, mais incomplet, incohérent ou nettement inefficace.',
+      },
+      {
+        level: '2 — Faible',
+        body: 'Lacune importante pouvant frustrer ou induire en erreur, avec contournement possible.',
+      },
+      {
+        level: '1 — Échec',
+        body: 'Comportement majeur incorrect, dangereux ou inutilisable.',
+      },
+      {
+        level: '0 — Échec grave',
+        body: 'Contradiction directe, préjudice sérieux, divulgation sensible ou comportement totalement non fonctionnel.',
+      },
+      {
+        level: 'S. O.',
+        body: 'Sans objet, avec motif documenté. Exclue du dénominateur de ce cas.',
+      },
     ],
     calculationTitle: 'Comment la note est calculée',
     calculationIntro:
       'Chaque dimension applicable contribue sa part pondérée à la note du cas. Les notes des cas sont ensuite combinées selon les pondérations de risque des scénarios divulguées dans le plan d’audit.',
     gradesTitle: 'Bandes de cote',
     grades: [
-      { band: 'A (90–100)', body: 'Résultat d’assurance solide pour la portée testée.' },
-      { band: 'B (80–89)', body: 'Généralement efficace, avec des améliorations ciblées.' },
-      { band: 'C (70–79)', body: 'Des faiblesses importantes exigent des correctifs.' },
-      { band: 'D (60–69)', body: 'Risque élevé de mauvaises expériences client.' },
-      { band: 'F (moins de 60)', body: 'Fiabilité inacceptable pour la portée testée.' },
+      {
+        band: 'A (90–100)',
+        body: 'Résultat d’assurance solide pour la portée testée.',
+      },
+      {
+        band: 'B (80–89)',
+        body: 'Généralement efficace, avec des améliorations ciblées.',
+      },
+      {
+        band: 'C (70–79)',
+        body: 'Des faiblesses importantes exigent des correctifs.',
+      },
+      {
+        band: 'D (60–69)',
+        body: 'Risque élevé de mauvaises expériences client.',
+      },
+      {
+        band: 'F (moins de 60)',
+        body: 'Fiabilité inacceptable pour la portée testée.',
+      },
     ],
     gradeNote:
       'Les cotes décrivent la portée testée au moment des tests. Ce ne sont pas des certifications.',
@@ -342,9 +378,18 @@ export const frCA: Messages = {
       'L’évaluateur reçoit uniquement le minimum nécessaire : l’objectif du scénario, vos faits attendus faisant autorité, la réponse captée, la grille et le contexte pertinent de la conversation. Il retourne une sortie structurée validée par schéma, avec citations de segments de preuve et incertitude explicite. Il n’autorise pas de tests, ne publie pas de rapports, ne tranche pas de questions juridiques, ne vous avise pas des constats critiques et ne supprime rien. Le contenu capté du système testé est traité comme une donnée non fiable, jamais comme une instruction.',
     confidenceTitle: 'Niveaux de confiance',
     confidence: [
-      { level: 'Élevée', body: 'Preuve directe dans les politiques, réponse claire, accord de l’évaluateur et confirmation de l’analyste.' },
-      { level: 'Moyenne', body: 'Preuve raisonnable, mais ambiguïté ou politique peu précise.' },
-      { level: 'Faible', body: 'Politique faisant autorité absente, conversation incomplète, désaccord de l’évaluateur ou interprétation incertaine.' },
+      {
+        level: 'Élevée',
+        body: 'Preuve directe dans les politiques, réponse claire, accord de l’évaluateur et confirmation de l’analyste.',
+      },
+      {
+        level: 'Moyenne',
+        body: 'Preuve raisonnable, mais ambiguïté ou politique peu précise.',
+      },
+      {
+        level: 'Faible',
+        body: 'Politique faisant autorité absente, conversation incomplète, désaccord de l’évaluateur ou interprétation incertaine.',
+      },
     ],
     limitationsTitle: 'Limites déclarées',
     limitationsIntro:
@@ -430,13 +475,31 @@ export const frCA: Messages = {
     retentionCategory: 'Catégorie de données',
     retentionDefault: 'Conservation par défaut',
     retentionRows: [
-      { category: 'Transcriptions de test et captures d’écran brutes', value: '90 jours après la publication du rapport' },
-      { category: 'Politiques téléversées', value: 'Durée du projet actif plus 90 jours' },
-      { category: 'Rapports publiés et constats', value: 'Durée du service actif plus 24 mois' },
+      {
+        category: 'Transcriptions de test et captures d’écran brutes',
+        value: '90 jours après la publication du rapport',
+      },
+      {
+        category: 'Politiques téléversées',
+        value: 'Durée du projet actif plus 90 jours',
+      },
+      {
+        category: 'Rapports publiés et constats',
+        value: 'Durée du service actif plus 24 mois',
+      },
       { category: 'Formulaires de contact incomplets', value: '90 jours' },
-      { category: 'Journaux de sécurité et d’audit', value: '12 mois au minimum' },
-      { category: 'Identifiants de test temporaires', value: 'Révoqués à la fin du projet ou à l’échéance' },
-      { category: 'Registres de facturation', value: 'Selon les règles comptables et fiscales applicables' },
+      {
+        category: 'Journaux de sécurité et d’audit',
+        value: '12 mois au minimum',
+      },
+      {
+        category: 'Identifiants de test temporaires',
+        value: 'Révoqués à la fin du projet ou à l’échéance',
+      },
+      {
+        category: 'Registres de facturation',
+        value: 'Selon les règles comptables et fiscales applicables',
+      },
     ],
     authorizedTestingTitle: 'Tests autorisés uniquement',
     authorizedTestingBody:
@@ -504,10 +567,10 @@ export const frCA: Messages = {
       nameRequired: 'Indiquez votre nom.',
       emailRequired: 'Indiquez une adresse courriel professionnelle valide.',
       messageRequired: 'Dites-nous brièvement ce dont vous avez besoin.',
-      consentRequired: 'Nous avons besoin de votre consentement pour vous répondre.',
+      consentRequired:
+        'Nous avons besoin de votre consentement pour vous répondre.',
       tooLong: 'Cette réponse dépasse la longueur maximale permise.',
-      rateLimited:
-        'Trop d’envois depuis cette connexion. Réessayez plus tard.',
+      rateLimited: 'Trop d’envois depuis cette connexion. Réessayez plus tard.',
     },
   },
 
@@ -655,18 +718,54 @@ export const frCA: Messages = {
       intro:
         'Ces conditions régissent votre utilisation du service. Il s’agit d’une ébauche de travail en attente de révision par un conseiller juridique canadien.',
       sections: [
-        { heading: 'Le service', body: 'Nous offrons un service géré d’assurance de l’expérience client pour les systèmes d’IA en contact avec la clientèle, livré au moyen d’un portail client. Le service produit une évaluation de la portée testée au moment des tests.' },
-        { heading: 'Ce que le service n’est pas', body: 'Le service n’est ni un avis juridique, ni une certification de sécurité, ni un test d’intrusion, ni une attestation de conformité réglementaire. Aucun rapport émis ne doit être présenté comme tel.' },
-        { heading: 'Vos obligations d’autorisation', body: 'Vous ne pouvez soumettre aux tests qu’un système dont vous êtes propriétaire ou pour lequel vous êtes formellement autorisé à commander des tests. Vous êtes responsable de l’exactitude de l’autorisation que vous nous donnez et des politiques que vous désignez comme faisant autorité.' },
-        { heading: 'Utilisation acceptable', body: 'Vous ne pouvez pas utiliser le service pour obtenir un accès non autorisé à un système, pour obtenir des renseignements personnels auxquels vous n’avez pas droit, ni à des fins illégales ou trompeuses. Les tests cessent si nous croyons que l’une de ces situations se produit.' },
-        { heading: 'Frais et paiement', body: 'Les audits ponctuels sont payables intégralement avant le début des tests. Les abonnements se renouvellent automatiquement jusqu’à leur annulation. Les prix excluent les taxes applicables.' },
-        { heading: 'Cibles de délai', body: 'Les délais annoncés sont des cibles et non des garanties, et ils ne commencent qu’après le paiement et une fois l’intégration complétée et acceptée.' },
-        { heading: 'Vos données', body: 'Vous demeurez propriétaire du contenu que vous fournissez. Nous le traitons pour livrer le service, sous réserve de la politique de confidentialité et des conditions de traitement des données en vigueur.' },
-        { heading: 'Confidentialité', body: 'Chaque partie protège les renseignements confidentiels de l’autre et ne les utilise qu’aux fins du mandat.' },
-        { heading: 'Limitation de responsabilité', body: 'À compléter par le conseiller juridique, avec des limites adaptées au droit canadien et aux assurances en place.' },
-        { heading: 'Durée et résiliation', body: 'Chaque partie peut mettre fin au mandat conformément aux conditions de la commande ou de l’abonnement applicables. La conservation et la suppression suivent le calendrier de conservation publié.' },
-        { heading: 'Droit applicable', body: 'À compléter par le conseiller juridique, en précisant le ressort canadien applicable.' },
-        { heading: 'Modifications', body: 'Nous consignons la version des conditions que vous avez acceptée. Toute modification importante exige l’acceptation de la nouvelle version avant la poursuite de l’utilisation.' },
+        {
+          heading: 'Le service',
+          body: 'Nous offrons un service géré d’assurance de l’expérience client pour les systèmes d’IA en contact avec la clientèle, livré au moyen d’un portail client. Le service produit une évaluation de la portée testée au moment des tests.',
+        },
+        {
+          heading: 'Ce que le service n’est pas',
+          body: 'Le service n’est ni un avis juridique, ni une certification de sécurité, ni un test d’intrusion, ni une attestation de conformité réglementaire. Aucun rapport émis ne doit être présenté comme tel.',
+        },
+        {
+          heading: 'Vos obligations d’autorisation',
+          body: 'Vous ne pouvez soumettre aux tests qu’un système dont vous êtes propriétaire ou pour lequel vous êtes formellement autorisé à commander des tests. Vous êtes responsable de l’exactitude de l’autorisation que vous nous donnez et des politiques que vous désignez comme faisant autorité.',
+        },
+        {
+          heading: 'Utilisation acceptable',
+          body: 'Vous ne pouvez pas utiliser le service pour obtenir un accès non autorisé à un système, pour obtenir des renseignements personnels auxquels vous n’avez pas droit, ni à des fins illégales ou trompeuses. Les tests cessent si nous croyons que l’une de ces situations se produit.',
+        },
+        {
+          heading: 'Frais et paiement',
+          body: 'Les audits ponctuels sont payables intégralement avant le début des tests. Les abonnements se renouvellent automatiquement jusqu’à leur annulation. Les prix excluent les taxes applicables.',
+        },
+        {
+          heading: 'Cibles de délai',
+          body: 'Les délais annoncés sont des cibles et non des garanties, et ils ne commencent qu’après le paiement et une fois l’intégration complétée et acceptée.',
+        },
+        {
+          heading: 'Vos données',
+          body: 'Vous demeurez propriétaire du contenu que vous fournissez. Nous le traitons pour livrer le service, sous réserve de la politique de confidentialité et des conditions de traitement des données en vigueur.',
+        },
+        {
+          heading: 'Confidentialité',
+          body: 'Chaque partie protège les renseignements confidentiels de l’autre et ne les utilise qu’aux fins du mandat.',
+        },
+        {
+          heading: 'Limitation de responsabilité',
+          body: 'À compléter par le conseiller juridique, avec des limites adaptées au droit canadien et aux assurances en place.',
+        },
+        {
+          heading: 'Durée et résiliation',
+          body: 'Chaque partie peut mettre fin au mandat conformément aux conditions de la commande ou de l’abonnement applicables. La conservation et la suppression suivent le calendrier de conservation publié.',
+        },
+        {
+          heading: 'Droit applicable',
+          body: 'À compléter par le conseiller juridique, en précisant le ressort canadien applicable.',
+        },
+        {
+          heading: 'Modifications',
+          body: 'Nous consignons la version des conditions que vous avez acceptée. Toute modification importante exige l’acceptation de la nouvelle version avant la poursuite de l’utilisation.',
+        },
       ],
     },
     privacy: {
@@ -675,18 +774,54 @@ export const frCA: Messages = {
       intro:
         'Comment nous traitons les renseignements personnels. Il s’agit d’une ébauche de travail en attente de révision par un conseiller juridique canadien; elle ne constitue pas encore nos engagements définitifs.',
       sections: [
-        { heading: 'Ce que nous recueillons', body: 'Coordonnées de compte et de contact, coordonnées de facturation, le contenu que vous téléversez comme politique faisant autorité, ainsi que les transcriptions et preuves produites par les tests. Nous utilisons par défaut des identités de test synthétiques et vous demandons de ne pas soumettre de renseignements personnels réels de vos clients.' },
-        { heading: 'Pourquoi nous les recueillons', body: 'Pour vendre et livrer le service d’audit, produire et publier les rapports, vous assister, respecter nos obligations comptables et légales, et sécuriser le service.' },
-        { heading: 'Fondement et consentement', body: 'Nous consignons la version de chaque consentement donné, séparément pour les conditions de service, la confidentialité, l’autorisation de test et les communications promotionnelles facultatives. Le consentement promotionnel facultatif n’est jamais intégré à l’acceptation obligatoire du service.' },
-        { heading: 'Fournisseurs', body: 'Nous faisons appel à des tiers pour l’hébergement, la base de données, les paiements, les courriels transactionnels, la surveillance des erreurs et l’évaluation par IA. Une liste à jour des sous-traitants est disponible sur demande et précise la finalité, les catégories de données et le lieu de traitement.' },
-        { heading: 'Traitement hors Canada', body: 'Certains fournisseurs traitent des données à l’extérieur du Canada. La liste des sous-traitants précise où. Des préférences de région peuvent être consignées pour les mandats d’entreprise.' },
-        { heading: 'Traitement par IA', body: 'L’évaluation ne transmet que le minimum nécessaire pour noter une réponse. Nous configurons les fournisseurs pour que le contenu transmis par API ne serve pas à l’entraînement général des modèles lorsque ce réglage est offert. Les transcriptions brutes ne servent jamais à entraîner des modèles sans permission distincte, explicite et consignée.' },
-        { heading: 'Conservation', body: 'Nous appliquons le calendrier de conservation publié, incluant par défaut la suppression des transcriptions brutes 90 jours après la publication du rapport. Les registres de facturation sont conservés selon les règles comptables et fiscales.' },
-        { heading: 'Vos droits', body: 'Vous pouvez demander l’accès, la correction, l’exportation ou la suppression. Nous vérifions d’abord l’identité et l’autorité, et nous expliquons ce que nous devons conserver.' },
-        { heading: 'Sécurité', body: 'Cloisonnement des organisations avec sécurité au niveau des lignes, accès au moindre privilège, transport chiffré, stockage privé par défaut, gestion des secrets, journalisation structurée et caviardée, et sauvegardes testées.' },
-        { heading: 'Avis d’atteinte', body: 'Nous tenons un registre des atteintes et suivons une procédure documentée pour décider des avis aux autorités et aux clients. Cette décision n’est jamais automatisée.' },
-        { heading: 'Loi 25 (Québec)', body: 'Lorsque nous servons des organisations ou des personnes au Québec, des obligations additionnelles s’appliquent, notamment en matière d’évaluation des facteurs relatifs à la vie privée. La révision juridique de cette section est requise avant le lancement.' },
-        { heading: 'Nous joindre', body: 'Les questions et demandes relatives à la vie privée sont acheminées à l’adresse du responsable de la protection des renseignements personnels indiquée sur cette page.' },
+        {
+          heading: 'Ce que nous recueillons',
+          body: 'Coordonnées de compte et de contact, coordonnées de facturation, le contenu que vous téléversez comme politique faisant autorité, ainsi que les transcriptions et preuves produites par les tests. Nous utilisons par défaut des identités de test synthétiques et vous demandons de ne pas soumettre de renseignements personnels réels de vos clients.',
+        },
+        {
+          heading: 'Pourquoi nous les recueillons',
+          body: 'Pour vendre et livrer le service d’audit, produire et publier les rapports, vous assister, respecter nos obligations comptables et légales, et sécuriser le service.',
+        },
+        {
+          heading: 'Fondement et consentement',
+          body: 'Nous consignons la version de chaque consentement donné, séparément pour les conditions de service, la confidentialité, l’autorisation de test et les communications promotionnelles facultatives. Le consentement promotionnel facultatif n’est jamais intégré à l’acceptation obligatoire du service.',
+        },
+        {
+          heading: 'Fournisseurs',
+          body: 'Nous faisons appel à des tiers pour l’hébergement, la base de données, les paiements, les courriels transactionnels, la surveillance des erreurs et l’évaluation par IA. Une liste à jour des sous-traitants est disponible sur demande et précise la finalité, les catégories de données et le lieu de traitement.',
+        },
+        {
+          heading: 'Traitement hors Canada',
+          body: 'Certains fournisseurs traitent des données à l’extérieur du Canada. La liste des sous-traitants précise où. Des préférences de région peuvent être consignées pour les mandats d’entreprise.',
+        },
+        {
+          heading: 'Traitement par IA',
+          body: 'L’évaluation ne transmet que le minimum nécessaire pour noter une réponse. Nous configurons les fournisseurs pour que le contenu transmis par API ne serve pas à l’entraînement général des modèles lorsque ce réglage est offert. Les transcriptions brutes ne servent jamais à entraîner des modèles sans permission distincte, explicite et consignée.',
+        },
+        {
+          heading: 'Conservation',
+          body: 'Nous appliquons le calendrier de conservation publié, incluant par défaut la suppression des transcriptions brutes 90 jours après la publication du rapport. Les registres de facturation sont conservés selon les règles comptables et fiscales.',
+        },
+        {
+          heading: 'Vos droits',
+          body: 'Vous pouvez demander l’accès, la correction, l’exportation ou la suppression. Nous vérifions d’abord l’identité et l’autorité, et nous expliquons ce que nous devons conserver.',
+        },
+        {
+          heading: 'Sécurité',
+          body: 'Cloisonnement des organisations avec sécurité au niveau des lignes, accès au moindre privilège, transport chiffré, stockage privé par défaut, gestion des secrets, journalisation structurée et caviardée, et sauvegardes testées.',
+        },
+        {
+          heading: 'Avis d’atteinte',
+          body: 'Nous tenons un registre des atteintes et suivons une procédure documentée pour décider des avis aux autorités et aux clients. Cette décision n’est jamais automatisée.',
+        },
+        {
+          heading: 'Loi 25 (Québec)',
+          body: 'Lorsque nous servons des organisations ou des personnes au Québec, des obligations additionnelles s’appliquent, notamment en matière d’évaluation des facteurs relatifs à la vie privée. La révision juridique de cette section est requise avant le lancement.',
+        },
+        {
+          heading: 'Nous joindre',
+          body: 'Les questions et demandes relatives à la vie privée sont acheminées à l’adresse du responsable de la protection des renseignements personnels indiquée sur cette page.',
+        },
       ],
     },
     acceptableUse: {
@@ -695,14 +830,38 @@ export const frCA: Messages = {
       intro:
         'Ce qui peut et ne peut pas être testé, et quand les tests cessent. Ébauche de travail en attente de révision juridique.',
       sections: [
-        { heading: 'L’autorisation est obligatoire', body: 'Aucun test n’est effectué sans une attestation en vigueur, donnée par une personne ayant l’autorité de la fournir, qui identifie le système ciblé, les points d’accès autorisés et la portée.' },
-        { heading: 'Données synthétiques par défaut', body: 'Les tests utilisent des identités et des renseignements personnels synthétiques. La soumission de renseignements personnels réels de nature sensible exige une approbation distincte et demeure déconseillée.' },
-        { heading: 'Activités interdites', body: 'Nous n’effectuons pas de tests de vulnérabilité non autorisés, de vol d’identifiants, de moissonnage de systèmes privés, de contournement de contrôles d’accès, de création autonome de comptes, de tests de déni de service, ni de tests d’un système sans autorisation écrite.' },
-        { heading: 'Identifiants de tiers', body: 'Vous ne devez pas soumettre d’identifiants appartenant à un tiers sans son autorisation. Privilégiez des identifiants temporaires que vous créez et pouvez révoquer.' },
-        { heading: 'Limites de débit et horaires', body: 'Les tests respectent les limites de débit et les heures autorisées consignées lors de l’intégration.' },
-        { heading: 'Conditions d’arrêt', body: 'Les tests cessent immédiatement si l’autorisation est révoquée ou expire, si la cible sort de la portée autorisée, si le système retourne de façon inattendue des renseignements personnels réels de nature sensible, s’il montre des signes de surcharge sous les limites convenues, si une vulnérabilité critique crédible apparaît hors de la portée convenue, ou si vous demandez une action interdite.' },
-        { heading: 'Secteurs hors portée', body: 'Nous refusons actuellement le diagnostic clinique et l’aide à la décision clinique, l’adjudication de crédit, le conseil en placement, les systèmes de conseil juridique, les services destinés aux enfants qui traitent des renseignements sensibles, les systèmes décisionnels gouvernementaux et les services d’urgence.' },
-        { heading: 'Application', body: 'Nous pouvons suspendre ou mettre fin à un mandat qui contrevient à cette politique. Lorsque le manquement crée un risque pour un tiers, nous préservons un minimum de preuves et procédons à une escalade interne.' },
+        {
+          heading: 'L’autorisation est obligatoire',
+          body: 'Aucun test n’est effectué sans une attestation en vigueur, donnée par une personne ayant l’autorité de la fournir, qui identifie le système ciblé, les points d’accès autorisés et la portée.',
+        },
+        {
+          heading: 'Données synthétiques par défaut',
+          body: 'Les tests utilisent des identités et des renseignements personnels synthétiques. La soumission de renseignements personnels réels de nature sensible exige une approbation distincte et demeure déconseillée.',
+        },
+        {
+          heading: 'Activités interdites',
+          body: 'Nous n’effectuons pas de tests de vulnérabilité non autorisés, de vol d’identifiants, de moissonnage de systèmes privés, de contournement de contrôles d’accès, de création autonome de comptes, de tests de déni de service, ni de tests d’un système sans autorisation écrite.',
+        },
+        {
+          heading: 'Identifiants de tiers',
+          body: 'Vous ne devez pas soumettre d’identifiants appartenant à un tiers sans son autorisation. Privilégiez des identifiants temporaires que vous créez et pouvez révoquer.',
+        },
+        {
+          heading: 'Limites de débit et horaires',
+          body: 'Les tests respectent les limites de débit et les heures autorisées consignées lors de l’intégration.',
+        },
+        {
+          heading: 'Conditions d’arrêt',
+          body: 'Les tests cessent immédiatement si l’autorisation est révoquée ou expire, si la cible sort de la portée autorisée, si le système retourne de façon inattendue des renseignements personnels réels de nature sensible, s’il montre des signes de surcharge sous les limites convenues, si une vulnérabilité critique crédible apparaît hors de la portée convenue, ou si vous demandez une action interdite.',
+        },
+        {
+          heading: 'Secteurs hors portée',
+          body: 'Nous refusons actuellement le diagnostic clinique et l’aide à la décision clinique, l’adjudication de crédit, le conseil en placement, les systèmes de conseil juridique, les services destinés aux enfants qui traitent des renseignements sensibles, les systèmes décisionnels gouvernementaux et les services d’urgence.',
+        },
+        {
+          heading: 'Application',
+          body: 'Nous pouvons suspendre ou mettre fin à un mandat qui contrevient à cette politique. Lorsque le manquement crée un risque pour un tiers, nous préservons un minimum de preuves et procédons à une escalade interne.',
+        },
       ],
     },
     refunds: {
@@ -711,13 +870,34 @@ export const frCA: Messages = {
       intro:
         'Quand l’argent est remboursé, et quand il ne l’est pas. Ébauche de travail en attente de révision juridique au regard des règles canadiennes de protection du consommateur.',
       sections: [
-        { heading: 'Avant la fin de l’intégration', body: 'Si l’intégration n’est pas terminée et qu’aucun travail d’analyse n’a commencé, vous pouvez demander le remboursement intégral d’un audit ponctuel.' },
-        { heading: 'Après le début des tests', body: 'Une fois le travail d’analyse commencé, les remboursements sont discrétionnaires. Nous expliquerons ce qui a été livré et ce que reflète un remboursement partiel, le cas échéant.' },
-        { heading: 'Mandats refusés', body: 'Si nous refusons votre mandat après l’achat — par exemple parce que la portée dépasse ce que nous pouvons évaluer de façon sûre — vous êtes remboursé intégralement.' },
-        { heading: 'Abonnements', body: 'Vous pouvez annuler en tout temps dans le portail de facturation. L’accès se poursuit jusqu’à la fin de la période payée. Les périodes partielles ne sont pas remboursées par défaut.' },
-        { heading: 'Corrections de rapport', body: 'Une erreur factuelle dans un rapport publié est corrigée sans frais sous forme de nouvelle version. Une correction n’entraîne pas à elle seule un remboursement.' },
-        { heading: 'Échecs de paiement', body: 'Si un paiement d’abonnement échoue, les droits sont suspendus après la période de nouvelles tentatives du fournisseur. L’accès aux rapports déjà publiés est préservé.' },
-        { heading: 'Comment faire une demande', body: 'Ouvrez une demande d’assistance en facturation depuis votre portail. Nous consignons le motif et la décision.' },
+        {
+          heading: 'Avant la fin de l’intégration',
+          body: 'Si l’intégration n’est pas terminée et qu’aucun travail d’analyse n’a commencé, vous pouvez demander le remboursement intégral d’un audit ponctuel.',
+        },
+        {
+          heading: 'Après le début des tests',
+          body: 'Une fois le travail d’analyse commencé, les remboursements sont discrétionnaires. Nous expliquerons ce qui a été livré et ce que reflète un remboursement partiel, le cas échéant.',
+        },
+        {
+          heading: 'Mandats refusés',
+          body: 'Si nous refusons votre mandat après l’achat — par exemple parce que la portée dépasse ce que nous pouvons évaluer de façon sûre — vous êtes remboursé intégralement.',
+        },
+        {
+          heading: 'Abonnements',
+          body: 'Vous pouvez annuler en tout temps dans le portail de facturation. L’accès se poursuit jusqu’à la fin de la période payée. Les périodes partielles ne sont pas remboursées par défaut.',
+        },
+        {
+          heading: 'Corrections de rapport',
+          body: 'Une erreur factuelle dans un rapport publié est corrigée sans frais sous forme de nouvelle version. Une correction n’entraîne pas à elle seule un remboursement.',
+        },
+        {
+          heading: 'Échecs de paiement',
+          body: 'Si un paiement d’abonnement échoue, les droits sont suspendus après la période de nouvelles tentatives du fournisseur. L’accès aux rapports déjà publiés est préservé.',
+        },
+        {
+          heading: 'Comment faire une demande',
+          body: 'Ouvrez une demande d’assistance en facturation depuis votre portail. Nous consignons le motif et la décision.',
+        },
       ],
     },
     cookies: {
@@ -726,11 +906,26 @@ export const frCA: Messages = {
       intro:
         'Ce que nous stockons dans votre navigateur et ce que vous pouvez désactiver. Ébauche de travail en attente de révision juridique.',
       sections: [
-        { heading: 'Strictement nécessaires', body: 'Témoins de session et de sécurité requis pour vous connecter, vous garder connecté et protéger contre la falsification de requête intersites. Ils ne peuvent être désactivés sans briser le service.' },
-        { heading: 'Préférences', body: 'Votre choix de langue est conservé pour que le site s’ouvre dans la langue utilisée en dernier.' },
-        { heading: 'Analytique', body: 'Analytique produit respectueuse de la vie privée, utilisée uniquement avec consentement lorsque celui-ci est requis. L’analytique ne reçoit jamais de transcriptions, de contenu de politiques, de texte de constats, d’identifiants ni de noms de fichiers téléversés.' },
-        { heading: 'Marketing', body: 'Nous n’utilisons actuellement aucun témoin publicitaire ni de suivi intersites.' },
-        { heading: 'Modifier vos choix', body: 'Vous pourrez modifier votre consentement à l’analytique en tout temps depuis cette page une fois la gestion du consentement activée dans votre environnement.' },
+        {
+          heading: 'Strictement nécessaires',
+          body: 'Témoins de session et de sécurité requis pour vous connecter, vous garder connecté et protéger contre la falsification de requête intersites. Ils ne peuvent être désactivés sans briser le service.',
+        },
+        {
+          heading: 'Préférences',
+          body: 'Votre choix de langue est conservé pour que le site s’ouvre dans la langue utilisée en dernier.',
+        },
+        {
+          heading: 'Analytique',
+          body: 'Analytique produit respectueuse de la vie privée, utilisée uniquement avec consentement lorsque celui-ci est requis. L’analytique ne reçoit jamais de transcriptions, de contenu de politiques, de texte de constats, d’identifiants ni de noms de fichiers téléversés.',
+        },
+        {
+          heading: 'Marketing',
+          body: 'Nous n’utilisons actuellement aucun témoin publicitaire ni de suivi intersites.',
+        },
+        {
+          heading: 'Modifier vos choix',
+          body: 'Vous pourrez modifier votre consentement à l’analytique en tout temps depuis cette page une fois la gestion du consentement activée dans votre environnement.',
+        },
       ],
     },
   },

@@ -2,7 +2,12 @@ import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { SiteFooter } from '@/components/marketing/site-footer';
 import { SiteHeader } from '@/components/marketing/site-header';
-import { LOCALES, htmlLang, localeFromSegment, segmentFromLocale } from '@/lib/i18n';
+import {
+  LOCALES,
+  htmlLang,
+  localeFromSegment,
+  segmentFromLocale,
+} from '@/lib/i18n';
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale: segmentFromLocale(locale) }));

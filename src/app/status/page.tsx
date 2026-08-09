@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { brand } from '@/config/brand';
-import {
-  DEFAULT_LOCALE,
-  getMessages,
-  localizedPath,
-} from '@/lib/i18n';
+import { DEFAULT_LOCALE, getMessages, localizedPath } from '@/lib/i18n';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,9 +75,7 @@ export default function StatusPage() {
 
       <p className="mt-6 text-sm">{m.status.availabilityNote}</p>
 
-      <h2 className="mt-10 text-xl font-semibold">
-        {m.status.incidentsTitle}
-      </h2>
+      <h2 className="mt-10 text-xl font-semibold">{m.status.incidentsTitle}</h2>
       <p className="mt-2">{m.status.noIncidents}</p>
 
       <p className="mt-10 text-sm">

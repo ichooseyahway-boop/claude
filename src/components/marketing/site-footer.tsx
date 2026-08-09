@@ -76,9 +76,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         </div>
 
         <div className="mt-10 space-y-3 border-t border-[color:var(--border-subtle)] pt-6 text-sm">
-          <p>
-            {interpolate(m.footer.notCertification, { brand: brand.name })}
-          </p>
+          <p>{interpolate(m.footer.notCertification, { brand: brand.name })}</p>
           {!brand.nameClearanceCompleted ? (
             <p>
               {interpolate(m.footer.workingNameNotice, { brand: brand.name })}

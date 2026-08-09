@@ -1,9 +1,5 @@
 import type { Metadata } from 'next';
-import {
-  CtaButton,
-  PageHeader,
-  Section,
-} from '@/components/ui/primitives';
+import { CtaButton, PageHeader, Section } from '@/components/ui/primitives';
 import { localizedPath } from '@/lib/i18n';
 import { resolvePageLocale } from '@/lib/i18n/server';
 import { buildMetadata } from '@/lib/seo';

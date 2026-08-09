@@ -171,8 +171,7 @@ export function getPackage(code: PackageCode): ServicePackage {
 
 export function isPackageCode(value: unknown): value is PackageCode {
   return (
-    typeof value === 'string' &&
-    servicePackages.some((p) => p.code === value)
+    typeof value === 'string' && servicePackages.some((p) => p.code === value)
   );
 }
 

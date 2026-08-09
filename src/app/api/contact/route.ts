@@ -1,9 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { ApiErrors, newCorrelationId } from '@/lib/api/errors';
-import {
-  clientKeyFromHeaders,
-  contactFormLimiter,
-} from '@/lib/api/rate-limit';
+import { clientKeyFromHeaders, contactFormLimiter } from '@/lib/api/rate-limit';
 import {
   CONSENT_DOCUMENT_VERSION,
   ContactRequestSchema,
@@ -32,7 +29,10 @@ export async function POST(request: NextRequest) {
 
   const contentLength = Number(request.headers.get('content-length') ?? '0');
   if (contentLength > MAX_BODY_BYTES) {
-    return ApiErrors.validation({ message: 'Payload too large.' }, correlationId);
+    return ApiErrors.validation(
+      { message: 'Payload too large.' },
+      correlationId,
+    );
   }
 
   const rateKey = await clientKeyFromHeaders(request.headers, 'contact');
@@ -111,7 +111,6 @@ export async function POST(request: NextRequest) {
   // PRD_TRACEABILITY.md under FR-MKT-004.
   void consentRecords;
 
-  // eslint-disable-next-line no-console -- structured application log line
   console.warn(
     JSON.stringify(
       safeLogPayload({

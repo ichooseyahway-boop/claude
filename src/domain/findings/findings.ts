@@ -130,7 +130,12 @@ const STATUS_TRANSITIONS: Record<FindingStatus, readonly FindingStatus[]> = {
   ],
   // A retest can reopen a resolved finding in a later cycle.
   resolved: ['regressed'],
-  partially_resolved: ['in_progress', 'ready_for_retest', 'resolved', 'regressed'],
+  partially_resolved: [
+    'in_progress',
+    'ready_for_retest',
+    'resolved',
+    'regressed',
+  ],
   risk_accepted: ['in_progress', 'open'],
   not_applicable: ['open'],
   regressed: ['in_progress', 'accepted', 'ready_for_retest'],

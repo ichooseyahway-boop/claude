@@ -31,7 +31,8 @@ export type RunState = (typeof RUN_STATES)[number];
 
 export function isRunState(value: unknown): value is RunState {
   return (
-    typeof value === 'string' && (RUN_STATES as readonly string[]).includes(value)
+    typeof value === 'string' &&
+    (RUN_STATES as readonly string[]).includes(value)
   );
 }
 
@@ -39,7 +40,8 @@ export function isRunState(value: unknown): value is RunState {
  * Roles permitted to drive a transition. Client roles appear nowhere in this
  * map: a customer can request a retest, but only internal staff move a run.
  */
-export type ActorRole = 'platform_owner' | 'analyst' | 'senior_analyst' | 'system';
+export type ActorRole =
+  'platform_owner' | 'analyst' | 'senior_analyst' | 'system';
 
 interface TransitionRule {
   to: RunState;
@@ -51,17 +53,40 @@ interface TransitionRule {
 const TRANSITIONS: Record<RunState, readonly TransitionRule[]> = {
   draft: [
     { to: 'approved', roles: ['platform_owner', 'senior_analyst'] },
-    { to: 'cancelled', roles: ['platform_owner', 'analyst'], requiresReason: true },
+    {
+      to: 'cancelled',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
   ],
   approved: [
     { to: 'queued', roles: ['platform_owner', 'analyst', 'system'] },
-    { to: 'draft', roles: ['platform_owner', 'senior_analyst'], requiresReason: true },
-    { to: 'cancelled', roles: ['platform_owner', 'analyst'], requiresReason: true },
+    {
+      to: 'draft',
+      roles: ['platform_owner', 'senior_analyst'],
+      requiresReason: true,
+    },
+    {
+      to: 'cancelled',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
   ],
   queued: [
-    { to: 'running', roles: ['system', 'analyst', 'senior_analyst', 'platform_owner'] },
-    { to: 'paused', roles: ['platform_owner', 'analyst'], requiresReason: true },
-    { to: 'cancelled', roles: ['platform_owner', 'analyst'], requiresReason: true },
+    {
+      to: 'running',
+      roles: ['system', 'analyst', 'senior_analyst', 'platform_owner'],
+    },
+    {
+      to: 'paused',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
+    {
+      to: 'cancelled',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
     { to: 'failed', roles: ['system'], requiresReason: true },
   ],
   running: [
@@ -69,25 +94,50 @@ const TRANSITIONS: Record<RunState, readonly TransitionRule[]> = {
       to: 'review_required',
       roles: ['system', 'analyst', 'senior_analyst', 'platform_owner'],
     },
-    { to: 'paused', roles: ['platform_owner', 'analyst'], requiresReason: true },
+    {
+      to: 'paused',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
     { to: 'failed', roles: ['system'], requiresReason: true },
     { to: 'cancelled', roles: ['platform_owner'], requiresReason: true },
   ],
   review_required: [
-    { to: 'report_draft', roles: ['analyst', 'senior_analyst', 'platform_owner'] },
-    { to: 'running', roles: ['analyst', 'platform_owner'], requiresReason: true },
-    { to: 'paused', roles: ['platform_owner', 'analyst'], requiresReason: true },
+    {
+      to: 'report_draft',
+      roles: ['analyst', 'senior_analyst', 'platform_owner'],
+    },
+    {
+      to: 'running',
+      roles: ['analyst', 'platform_owner'],
+      requiresReason: true,
+    },
+    {
+      to: 'paused',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
     { to: 'cancelled', roles: ['platform_owner'], requiresReason: true },
   ],
   report_draft: [
     // Release is gated by `canRelease` in addition to this transition.
     { to: 'released', roles: ['platform_owner', 'senior_analyst'] },
-    { to: 'review_required', roles: ['analyst', 'senior_analyst', 'platform_owner'], requiresReason: true },
+    {
+      to: 'review_required',
+      roles: ['analyst', 'senior_analyst', 'platform_owner'],
+      requiresReason: true,
+    },
     { to: 'cancelled', roles: ['platform_owner'], requiresReason: true },
   ],
   // A released run is immutable. It can only be marked superseded when a
   // corrected version is released (FR-RPT-004).
-  released: [{ to: 'superseded', roles: ['platform_owner', 'senior_analyst'], requiresReason: true }],
+  released: [
+    {
+      to: 'superseded',
+      roles: ['platform_owner', 'senior_analyst'],
+      requiresReason: true,
+    },
+  ],
   paused: [
     { to: 'queued', roles: ['platform_owner', 'analyst'] },
     { to: 'running', roles: ['platform_owner', 'analyst'] },
@@ -95,7 +145,11 @@ const TRANSITIONS: Record<RunState, readonly TransitionRule[]> = {
     { to: 'cancelled', roles: ['platform_owner'], requiresReason: true },
   ],
   failed: [
-    { to: 'queued', roles: ['platform_owner', 'analyst'], requiresReason: true },
+    {
+      to: 'queued',
+      roles: ['platform_owner', 'analyst'],
+      requiresReason: true,
+    },
     { to: 'cancelled', roles: ['platform_owner'], requiresReason: true },
   ],
   cancelled: [],

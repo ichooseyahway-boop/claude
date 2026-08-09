@@ -208,7 +208,12 @@ export function ContactForm({
         {/* Honeypot: hidden from users and assistive technology alike. */}
         <div aria-hidden="true" className="hidden">
           <label htmlFor="field-website">Website</label>
-          <input id="field-website" name="website" tabIndex={-1} autoComplete="off" />
+          <input
+            id="field-website"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+          />
         </div>
 
         <div className="space-y-3">

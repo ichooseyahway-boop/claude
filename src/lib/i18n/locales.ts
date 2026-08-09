@@ -26,7 +26,9 @@ const SEGMENT_TO_LOCALE: Record<string, Locale> = {
 };
 
 export function isLocale(value: unknown): value is Locale {
-  return typeof value === 'string' && (LOCALES as readonly string[]).includes(value);
+  return (
+    typeof value === 'string' && (LOCALES as readonly string[]).includes(value)
+  );
 }
 
 /** Resolve a URL segment (`en` / `fr`) to a full locale, or null. */
@@ -59,6 +61,7 @@ export function htmlLang(locale: Locale): string {
  * routes are keyed by a shared canonical path rather than translated slugs.
  */
 export function localizedPath(locale: Locale, path = '/'): string {
-  const normalized = path === '/' ? '' : path.startsWith('/') ? path : `/${path}`;
+  const normalized =
+    path === '/' ? '' : path.startsWith('/') ? path : `/${path}`;
   return `/${segmentFromLocale(locale)}${normalized}`;
 }

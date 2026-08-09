@@ -54,13 +54,7 @@ export function PageHeader({
   );
 }
 
-export function H2({
-  id,
-  children,
-}: {
-  id?: string;
-  children: ReactNode;
-}) {
+export function H2({ id, children }: { id?: string; children: ReactNode }) {
   return (
     <h2 id={id} className="text-2xl font-bold sm:text-3xl">
       {children}
@@ -89,9 +83,7 @@ export function Card({
 
   return (
     <div className={`rounded-xl border p-5 ${toneClasses}`}>
-      {title ? (
-        <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-      ) : null}
+      {title ? <h3 className="mb-2 text-lg font-semibold">{title}</h3> : null}
       <div className="text-base">{children}</div>
     </div>
   );
@@ -105,9 +97,7 @@ export function CardGrid({
   columns?: 2 | 3;
 }) {
   const columnClass =
-    columns === 2
-      ? 'sm:grid-cols-2'
-      : 'sm:grid-cols-2 lg:grid-cols-3';
+    columns === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3';
   return (
     <div className={`mt-8 grid grid-cols-1 gap-5 ${columnClass}`}>
       {children}

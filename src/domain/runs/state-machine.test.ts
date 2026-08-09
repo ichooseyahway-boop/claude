@@ -159,7 +159,9 @@ describe('canTransition', () => {
   });
 
   it('lists the transitions available to a role', () => {
-    expect(allowedTransitions('draft', 'analyst').sort()).toEqual(['cancelled']);
+    expect(allowedTransitions('draft', 'analyst').sort()).toEqual([
+      'cancelled',
+    ]);
     expect(allowedTransitions('draft', 'senior_analyst').sort()).toEqual([
       'approved',
     ]);

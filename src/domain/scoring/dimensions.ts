@@ -22,7 +22,8 @@ export type Dimension = (typeof DIMENSIONS)[number];
 
 export function isDimension(value: unknown): value is Dimension {
   return (
-    typeof value === 'string' && (DIMENSIONS as readonly string[]).includes(value)
+    typeof value === 'string' &&
+    (DIMENSIONS as readonly string[]).includes(value)
   );
 }
 

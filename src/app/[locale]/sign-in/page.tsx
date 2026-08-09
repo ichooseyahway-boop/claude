@@ -1,5 +1,10 @@
 import type { Metadata } from 'next';
-import { Callout, PageHeader, Prose, Section } from '@/components/ui/primitives';
+import {
+  Callout,
+  PageHeader,
+  Prose,
+  Section,
+} from '@/components/ui/primitives';
 import { isAuthConfigured } from '@/lib/env';
 import { resolvePageLocale } from '@/lib/i18n/server';
 import { buildMetadata } from '@/lib/seo';

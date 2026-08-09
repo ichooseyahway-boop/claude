@@ -71,12 +71,9 @@ export const ApiErrors = {
       { ...(correlationId ? { correlationId } : {}) },
     ),
   notConfigured: (code: string, correlationId?: string) =>
-    apiError(
-      code,
-      'This feature is not configured in this environment.',
-      503,
-      { ...(correlationId ? { correlationId } : {}) },
-    ),
+    apiError(code, 'This feature is not configured in this environment.', 503, {
+      ...(correlationId ? { correlationId } : {}),
+    }),
   internal: (correlationId?: string) =>
     apiError(
       'INTERNAL_ERROR',

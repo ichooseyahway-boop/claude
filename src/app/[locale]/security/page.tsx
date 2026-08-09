@@ -38,13 +38,33 @@ export default async function SecurityPage({ params }: PageProps) {
   const { m } = await resolvePageLocale(params);
 
   const blocks = [
-    { id: 'isolation', title: m.security.isolationTitle, body: m.security.isolationBody },
+    {
+      id: 'isolation',
+      title: m.security.isolationTitle,
+      body: m.security.isolationBody,
+    },
     { id: 'data', title: m.security.dataTitle, body: m.security.dataBody },
-    { id: 'credentials', title: m.security.credentialsTitle, body: m.security.credentialsBody },
+    {
+      id: 'credentials',
+      title: m.security.credentialsTitle,
+      body: m.security.credentialsBody,
+    },
     { id: 'ai', title: m.security.aiTitle, body: m.security.aiBody },
-    { id: 'authorized-testing', title: m.security.authorizedTestingTitle, body: m.security.authorizedTestingBody },
-    { id: 'rights', title: m.security.rightsTitle, body: m.security.rightsBody },
-    { id: 'incident', title: m.security.incidentTitle, body: m.security.incidentBody },
+    {
+      id: 'authorized-testing',
+      title: m.security.authorizedTestingTitle,
+      body: m.security.authorizedTestingBody,
+    },
+    {
+      id: 'rights',
+      title: m.security.rightsTitle,
+      body: m.security.rightsBody,
+    },
+    {
+      id: 'incident',
+      title: m.security.incidentTitle,
+      body: m.security.incidentBody,
+    },
   ];
 
   return (
