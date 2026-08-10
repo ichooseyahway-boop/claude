@@ -230,18 +230,64 @@ check during an outage.
 against the 5.x line. PRD 1.1.2 forbids beta dependencies in
 security-sensitive paths; a compiler change is broader than that.
 
-## A-024 — No CI workflow file is committed
+## A-024 — CI workflow committed; branch protection and deployment are not
 
-**Decision.** `npm run verify` reproduces the PRD 21.1 pipeline locally, but no
-`.github/workflows/` file exists.
+**Decision.** `.github/workflows/ci.yml` runs all ten PRD 21.1 steps on every
+pull request and on pushes to `main`. `npm run ci` runs the same sequence
+locally. The dependency-audit threshold is `high` over production dependencies
+only (`npm audit --omit=dev --audit-level=high`).
 
-**Why.** The pipeline needs decisions this repository cannot make: which runner,
-which secrets, which branch protection, and which dependency-audit threshold
-counts as blocking. Committing a guessed workflow that fails on first run is
-worse than none.
+**Why that threshold.** PRD 21.1 requires a "documented threshold" and does not
+name one. `high` on production dependencies is the level where a finding
+plausibly reaches a customer. Including dev-only advisories would block releases
+on tooling that never ships, and a gate that fires on things nobody can act on
+is a gate people learn to bypass. Moderate and low advisories still appear in
+the log; they simply do not fail the build.
 
-**Owner action required.** Confirm the CI platform, then the workflow is a
-short file wrapping `npm run verify` and `npm run db:test`.
+**Still not configured, deliberately.**
+
+- *Branch protection and owner approval.* PRD 21.1 requires "passing CI and
+  owner approval" for protected production deployment. Which branches are
+  protected, and whether approval is required to merge, are repository settings
+  rather than file contents — this workflow supplies the CI half only.
+- *Deployment.* No hosting provider has been chosen. A deploy step that guessed
+  one would either fail on first run or, worse, succeed against something
+  unintended.
+
+**Owner action required.** Enable branch protection on `main` requiring the
+`Verify` check and owner review, then choose a hosting provider before a deploy
+job is added.
+
+## A-030 — Multiple root layouts, so `lang` is on `<html>`
+
+**Decision.** There is no `src/app/layout.tsx`. Three route groups each carry
+their own root layout: `(public)/[locale]` for the marketing site,
+`(standalone)` for `/` and `/status`, and `(authenticated)` for `/app` and
+`/ops`.
+
+**Why.** The locale layout previously set `lang` on an inner `<div>`. That
+satisfies WCAG 3.1.2 (Language of Parts) and leaves 3.1.1 (Language of Page)
+unmet, so a screen reader announces the entire French site with English
+pronunciation. `lang` has to be on `<html>`, and in the App Router only a root
+layout renders `<html>` — a root layout cannot read route params, so the only
+way to know the locale there is to have several root layouts. Found by an E2E
+smoke test asserting `html[lang]`, not by review.
+
+The alternative — one root layout reading the path from a middleware header —
+would have opted the whole marketing site into dynamic rendering to fix an
+attribute. The public pages are still prerendered after this change.
+
+## A-031 — `/app` and `/ops` are `force-dynamic`
+
+**Decision.** The authenticated root layout sets
+`export const dynamic = 'force-dynamic'`.
+
+**Why.** Without it, Next prerenders those routes at build time — when there is
+no session — and serves that build-time output to every visitor. Today the
+output is only a redirect, so the effect is invisible; the moment a PostgreSQL
+`DataStore` exists it would become one customer's page cached and served to
+everyone. This is the class of bug that does not announce itself in testing,
+which is why it is pinned rather than left to the default.
 
 ## A-025 — `effort`, not `temperature`, for the evaluator
 

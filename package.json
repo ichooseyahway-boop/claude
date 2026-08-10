@@ -17,7 +17,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:test": "./scripts/db-test.sh",
-    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
+    "secret-scan": "node scripts/secret-scan.mjs",
+    "test:e2e": "playwright test",
+    "audit": "npm audit --omit=dev --audit-level=high",
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run db:test && npm run build && npm run test:e2e && npm run secret-scan && npm run audit"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.116.0",
@@ -30,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.6",
+    "@playwright/test": "1.57.0",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "26.2.0",
     "@types/react": "19.2.18",

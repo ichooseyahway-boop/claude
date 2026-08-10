@@ -198,8 +198,8 @@ true, though less of the gap is now logic and more of it is screens.
 | 16.2 tenant-isolation tests | **Done** | `supabase/test/rls_tenant_isolation.sql` — 27 assertions, all passing against PostgreSQL 16 |
 | 16.5 retention defaults | **Partial** | Published on the security page and encoded in `evidence_objects.retention_date`; no retention worker. |
 | 17.1 WCAG 2.2 AA | **Partial** | Skip link, focus styles, semantic landmarks, labelled fields, error summary linked to fields, reduced motion, scrollable tables with `role="region"`, no colour-only status. **No automated axe run and no manual screen-reader pass.** |
-| 20.1 test layers | **Partial** | Unit and service (410 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
-| 21.1 CI pipeline | **Not started** | `npm run verify` runs format, lint, typecheck, test and build locally. No CI workflow file. |
+| 20.1 test layers | **Partial** | Unit and service (410 tests), database/RLS (27 assertions) and E2E smoke (16 tests) done. No integration, full accessibility, visual regression or load tests. |
+| 21.1 CI pipeline | **Partial** | `.github/workflows/ci.yml` runs all ten steps, including a real PostgreSQL 16 service for the RLS suite. Branch protection and owner approval are repository settings, not file contents, and no deploy job exists because no host has been chosen (A-024). |
 | 18.4 backups | **Blocked** | Requires a provisioned database. |
 
 ---

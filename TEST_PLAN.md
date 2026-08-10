@@ -12,9 +12,9 @@ PRD ref: section 20.
 | Lint / format | Implemented | — | `npm run lint`, `npm run format:check` |
 | Production build | Implemented | — | `npm run build` |
 | Integration (auth, billing, storage, email, AI) | **Not written** | 0 | — |
-| End-to-end | **Not written** | 0 | — |
+| End-to-end (smoke) | Implemented | 16 | `npm run test:e2e` |
 | Accessibility (automated + manual) | **Not written** | 0 | — |
-| Security (SSRF, upload, webhook forgery) | Partial — SSRF guard and evaluator prompt-injection defence unit-tested; no request-level tests | — | — |
+| Security (SSRF, upload, webhook forgery) | Partial — SSRF guard and evaluator prompt-injection defence unit-tested; response headers and route guards covered by E2E; no upload or webhook-forgery request tests | — | `npm run secret-scan` |
 | Localization | Implemented (key parity, placeholders, prohibited claims) | included above | `npm test` |
 | Visual regression | **Not written** | 0 | — |
 | Load | **Not written** | 0 | — |
@@ -158,6 +158,24 @@ no vendor account, real service code.
   all fall back to the default.
 - The sign-in response is identical whether or not the address exists.
 
+### End-to-end smoke (`e2e/smoke.spec.ts`)
+
+16 tests against a real production build. These assert what a unit test
+structurally cannot — that the guard *runs on the route*, not merely that the
+guard is correct.
+
+- `/app`, `/ops` and their sub-routes serve no content without a session. The
+  assertion is on the outcome (content was not served) rather than the mechanism
+  (a redirect), so it survives a change of mechanism.
+- Both homepages render with the correct `lang` on `<html>`; an unknown locale
+  segment 404s instead of falling back to English.
+- Language switching preserves the route, matched by accessible name — which is
+  what a screen-reader user actually hears.
+- CSP, `frame-ancestors 'none'`, `nosniff` and `Referrer-Policy` are present on
+  a real response.
+- Sign-in presents no form when no provider is configured, and the endpoint
+  answers 503 rather than fabricating success.
+
 ### Prompt-injection defence (`src/domain/evaluation/`)
 
 - The system prompt is a constant and never contains captured content, however
@@ -235,8 +253,12 @@ belongs in the change record for the version being switched.
 ## Running everything
 
 ```bash
-npm run verify     # format, lint, typecheck, unit tests, production build
+npm run ci         # the full PRD 21.1 pipeline, all ten steps
+npm run verify     # the fast local gate: format, lint, typecheck, unit tests, build
 npm run db:test    # migrations + RLS isolation suite on a throwaway cluster
+npm run test:e2e   # Playwright smoke tests against a production build
+npm run secret-scan # repository secret scan
+npm run audit      # production dependency audit at the documented threshold
 ```
 
 `npm run db:test` must be run as a non-root user.

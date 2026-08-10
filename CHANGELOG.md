@@ -133,6 +133,18 @@ Not yet released, and not yet able to accept paying customers — see
 - Liveness and readiness probes; readiness fails in production while legal
   documents are unapproved.
 
+**Continuous integration**
+- `.github/workflows/ci.yml` running all ten PRD 21.1 steps, with a real
+  PostgreSQL 16 service — the RLS policies are the tenant-isolation boundary and
+  a mock cannot enforce them.
+- 16 Playwright smoke tests against a production build, asserting that the route
+  guards actually run on the routes, that both homepages carry the correct
+  `lang`, that the security headers are present on a real response, and that an
+  unconfigured sign-in refuses rather than fabricating success.
+- `scripts/secret-scan.mjs`, sharing its patterns with the release scanner, with
+  an allowlist that requires a written reason per entry.
+- Production dependency audit at a documented `high` threshold.
+
 **Documentation**
 - `README.md`, `PRD_TRACEABILITY.md`, `ASSUMPTIONS.md`, `RUNBOOK.md`,
   `SECURITY.md`, `PRIVACY_DATA_MAP.md`, `INCIDENT_RESPONSE.md`, `TEST_PLAN.md`,
@@ -147,13 +159,24 @@ discarding writes.
 
 Also not included: onboarding, plan-building, execution and evaluation screens
 (their services are written and tested; the UI is not), PDF rendering, scheduled
-monitoring, retention workers and the CI workflow.
+monitoring and retention workers. CI runs but has no deploy job, because no host
+has been chosen.
 
 Vendor accounts for database, billing, email and AI are not provisioned, and
 PRD 1.1.12 forbids substituting placeholder production values.
 
+### Fixed
+
+- `lang` was set on an inner `<div>` rather than `<html>`, meeting WCAG 3.1.2
+  but not 3.1.1 — a screen reader would have announced the whole French site
+  with English pronunciation. Fixed with per-route-group root layouts, which
+  keeps the public pages prerendered. Caught by an E2E test, not by review.
+- `/app` and `/ops` were being prerendered at build time. Harmless today because
+  the output is a redirect; once a data store exists it would have cached one
+  customer's page and served it to everyone.
+
 ### Verification
 
-410 unit tests pass across 21 files. 27 database isolation assertions pass
-against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
+410 unit tests and 16 E2E smoke tests pass. 27 database isolation assertions
+pass against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
 is clean, with all bilingual routes prerendered.

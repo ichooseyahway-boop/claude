@@ -1,0 +1,129 @@
+# Continuous integration.
+#
+# PRD ref: 21.1. The ten required steps, in order, with the two that need an
+# owner decision called out below rather than guessed at.
+#
+# Deliberately not configured here:
+#
+#   - Branch protection. Which branches require this workflow, and whether the
+#     owner's approval is required to merge, are repository settings, not file
+#     contents. PRD 21.1 requires "passing CI and owner approval" for protected
+#     production deployment; this workflow supplies the first half only.
+#   - Deployment. No hosting provider has been chosen, and a deploy step that
+#     guesses one would either fail on first run or, worse, succeed against
+#     something unintended.
+#
+# The dependency-audit threshold IS set here, at `high`, over production
+# dependencies only. See ASSUMPTIONS.md A-024 for why that threshold and not
+# another.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A second push supersedes the first: a queue of stale runs on the same branch
+# wastes minutes and delays the run anyone is actually waiting for.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    services:
+      # PRD 21.1 step 6 needs a real PostgreSQL, not a mock. The RLS policies
+      # are the tenant-isolation boundary, and a mock cannot enforce them.
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: botassure_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      # db-test.sh uses this instead of starting its own cluster.
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/botassure_test
+      NEXT_TELEMETRY_DISABLED: '1'
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      # Step 1. `npm ci` installs from the lockfile and fails if package.json
+      # and the lockfile disagree, which is the property we want.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client-16
+
+      # Step 2.
+      - name: Check formatting
+        run: npm run format:check
+
+      # Step 3.
+      - name: Lint
+        run: npm run lint
+
+      # Step 4.
+      - name: Type check
+        run: npm run typecheck
+
+      # Step 5.
+      - name: Unit and service tests
+        run: npm test
+
+      # Step 6.
+      - name: Database and row-level-security tests
+        run: npm run db:test
+
+      # Step 7.
+      - name: Production build
+        run: npm run build
+
+      # Step 8. Chromium only: the smoke tests assert server behaviour, not
+      # rendering differences between engines.
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end smoke tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+      # Step 9. Runs after the build so a secret introduced by a generated file
+      # is caught too.
+      - name: Secret scan
+        run: npm run secret-scan
+
+      # Step 10. Production dependencies at `high` and above. Dev-only advisories
+      # do not ship to customers and must not block a release on a Friday.
+      - name: Dependency audit
+        run: npm run audit
