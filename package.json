@@ -21,7 +21,9 @@
     "secret-scan": "node scripts/secret-scan.mjs",
     "test:e2e": "playwright test",
     "audit": "npm audit --omit=dev --audit-level=high",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run db:test && npm run build && npm run test:e2e && npm run secret-scan && npm run audit"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run seed:scenarios:check && npm run test && npm run db:test && npm run build && npm run test:e2e && npm run secret-scan && npm run audit",
+    "seed:scenarios": "node scripts/generate-scenario-seed.mjs",
+    "seed:scenarios:check": "node scripts/generate-scenario-seed.mjs --check"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.116.0",

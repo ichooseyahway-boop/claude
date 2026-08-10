@@ -32,6 +32,11 @@ run_suite() {
   echo "==> Loading seed data"
   "${psql_cmd[@]}" -v ON_ERROR_STOP=1 -q -f "$REPO_ROOT/supabase/seed.sql"
 
+  # Generated from src/data/scenario-library.ts. Applied here so the suite
+  # exercises the corpus that will actually be seeded, not a smaller stand-in.
+  echo "==> Loading generated scenario library"
+  "${psql_cmd[@]}" -v ON_ERROR_STOP=1 -q -f "$REPO_ROOT/supabase/seed_scenarios.sql"
+
   echo "==> Running tenant isolation suite"
   # `set -o pipefail` is active, so a failing psql fails the script even though
   # its output is piped through grep. ERROR lines are kept in the filter so a

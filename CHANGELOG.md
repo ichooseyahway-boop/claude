@@ -104,6 +104,18 @@ Not yet released, and not yet able to accept paying customers — see
 - Navigation is built from permissions the server already checked; hiding a link
   is presentation, and every destination re-checks (7.7).
 
+**Scenario library**
+- 43 matched bilingual pairs — 86 templates — covering all 42 Appendix A topics,
+  authored in TypeScript because three consumers need the corpus and a
+  duplicated corpus drifts.
+- `scripts/generate-scenario-seed.mjs` emits `supabase/seed_scenarios.sql` from
+  it; CI fails if the generated file is stale, because a stale seed means the
+  database gets a different corpus from the one the tests check.
+- 15 tests treating the library as data: Appendix A coverage against an
+  independently written topic list, pair symmetry, French that is neither the
+  English text nor European French, synthetic identifiers only, and a check that
+  no scenario instructs a tester to probe infrastructure.
+
 **Security**
 - SSRF guard for outbound capture, including redirect re-validation.
 - Allowlist-based safe logging, key- and value-based redaction, secret masking
@@ -116,7 +128,7 @@ Not yet released, and not yet able to accept paying customers — see
 - Row-level security on every table, with a migration-time assertion that fails
   if any table lacks it.
 - Immutability triggers for captured content, released reports and audit events.
-- Seed data: four packages, 12 matched bilingual scenario pairs, feature flags
+- Seed data: four packages, 43 matched bilingual scenario pairs, feature flags
   defaulted off, guarded against running in production.
 - 27-assertion cross-tenant isolation suite and `scripts/db-test.sh`.
 
@@ -177,6 +189,6 @@ PRD 1.1.12 forbids substituting placeholder production values.
 
 ### Verification
 
-410 unit tests and 16 E2E smoke tests pass. 27 database isolation assertions
+425 unit tests and 16 E2E smoke tests pass. 27 database isolation assertions
 pass against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
 is clean, with all bilingual routes prerendered.

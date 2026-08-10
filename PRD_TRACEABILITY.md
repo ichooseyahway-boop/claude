@@ -26,7 +26,7 @@ exists so the owner can see exactly where the gap is.
 | Billing | 0 | 2 | 3 | 0 |
 | Onboarding and authorization | 0 | 4 | 0 | 1 |
 | AI systems and capture | 1 | 1 | 0 | 1 |
-| Scenarios and plans | 0 | 3 | 0 | 1 |
+| Scenarios and plans | 1 | 2 | 0 | 1 |
 | Execution | 3 | 1 | 0 | 1 |
 | Evaluation | 3 | 1 | 0 | 1 |
 | Findings | 4 | 0 | 0 | 0 |
@@ -37,7 +37,7 @@ exists so the owner can see exactly where the gap is.
 | Localization | 2 | 0 | 0 | 0 |
 | Support and legal | 1 | 1 | 0 | 0 |
 
-**23 of 51 P0 requirements are Done. The product still cannot accept a paying
+**24 of 51 P0 requirements are Done. The product still cannot accept a paying
 customer**, and no part of the service layer below is reachable over HTTP yet —
 there is no authentication and no operations or portal user interface. See
 "What blocks launch" at the end.
@@ -97,7 +97,7 @@ have emailed anyone.
 | FR-SYS-002 | Capture modes | **Partial** | `capture_mode` enum covers all four; browser runner flag defaults off. No capture UI. |
 | FR-SYS-003 | Connection test | **Not started** | SSRF guard ready; no endpoint. |
 | FR-SCN-001 | Versioned scenario templates | **Partial** | `scenario_templates` with `(family_id, version, locale)` uniqueness; 24 seeded templates. Editing a published template creating a new version is enforced by convention, not yet by code. |
-| FR-SCN-002 | Scenario categories | **Partial** | 12 matched bilingual pairs cover every category. **Appendix A requires ≥80 templates; 24 exist.** Remaining are analyst content. |
+| FR-SCN-002 | Scenario categories | **Done** | `src/data/scenario-library.ts` — 43 matched pairs, 86 templates, covering every one of Appendix A's 42 topics. A test repeats the Appendix A topic list independently, so coverage cannot be proven by the library against itself. |
 | FR-SCN-003 | Audit plan builder | **Partial** | `src/domain/services/planning.ts` — one draft at a time, entitlement cap enforced at build time, coverage and matched-pair gap reporting, senior approval, approved plans immutable, superseding requires a reason. 17 tests. No UI. |
 | FR-SCN-004 | Synthetic test data | **Not started** | Seeded scenarios use synthetic identifiers (`TEST-100042`); no generator or blocked-format validator. |
 
@@ -198,7 +198,7 @@ true, though less of the gap is now logic and more of it is screens.
 | 16.2 tenant-isolation tests | **Done** | `supabase/test/rls_tenant_isolation.sql` — 27 assertions, all passing against PostgreSQL 16 |
 | 16.5 retention defaults | **Partial** | Published on the security page and encoded in `evidence_objects.retention_date`; no retention worker. |
 | 17.1 WCAG 2.2 AA | **Partial** | Skip link, focus styles, semantic landmarks, labelled fields, error summary linked to fields, reduced motion, scrollable tables with `role="region"`, no colour-only status. **No automated axe run and no manual screen-reader pass.** |
-| 20.1 test layers | **Partial** | Unit and service (410 tests), database/RLS (27 assertions) and E2E smoke (16 tests) done. No integration, full accessibility, visual regression or load tests. |
+| 20.1 test layers | **Partial** | Unit and service (425 tests), database/RLS (27 assertions) and E2E smoke (16 tests) done. No integration, full accessibility, visual regression or load tests. |
 | 21.1 CI pipeline | **Partial** | `.github/workflows/ci.yml` runs all ten steps, including a real PostgreSQL 16 service for the RLS suite. Branch protection and owner approval are repository settings, not file contents, and no deploy job exists because no host has been chosen (A-024). |
 | 18.4 backups | **Blocked** | Requires a provisioned database. |
 
@@ -219,9 +219,7 @@ Ordered by what the owner must do first.
    FR-LEGAL-002 make this a hard gate, and `/api/health/ready` enforces it.
 4. **Commission French review.** Copy is written for Canadian readers but has
    not been reviewed by a fluent human, which FR-I18N-002 requires.
-5. **Expand the scenario library** from 24 to the ≥80 templates Appendix A
-   specifies.
-6. **Trademark, corporate-name and domain clearance** before the working name
+5. **Trademark, corporate-name and domain clearance** before the working name
    is used publicly.
 
 Items in section 28's acceptance contract that cannot be produced from a

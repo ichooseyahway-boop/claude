@@ -90,6 +90,12 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      # The scenario library is authored in TypeScript and its SQL is generated.
+      # A stale generated file means the database gets a different corpus from
+      # the one the tests check, which is the kind of divergence nobody notices.
+      - name: Check the generated scenario seed is current
+        run: npm run seed:scenarios:check
+
       # Step 5.
       - name: Unit and service tests
         run: npm test
