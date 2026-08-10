@@ -224,7 +224,9 @@ export async function seedApprovedPlan(
       await harness.context.data.scenarios.create(template);
       sequence += 1;
       const scenario: PlanScenario = {
-        id: `planscenario_${sequence}`,
+        // Namespaced by project: seeding two projects in one test must not
+        // collide on `planscenario_1`.
+        id: `planscenario_${projectId}_${sequence}`,
         organizationId,
         auditPlanId: plan.id,
         scenarioTemplateId: template.id,

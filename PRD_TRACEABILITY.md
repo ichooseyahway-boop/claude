@@ -31,13 +31,13 @@ exists so the owner can see exactly where the gap is.
 | Evaluation | 3 | 1 | 0 | 1 |
 | Findings | 4 | 0 | 0 | 0 |
 | Reports | 3 | 0 | 1 | 1 |
-| Client portal | 0 | 0 | 0 | 4 |
-| Operations workspace | 0 | 0 | 0 | 5 |
+| Client portal | 0 | 3 | 0 | 1 |
+| Operations workspace | 1 | 2 | 0 | 2 |
 | Notifications | 0 | 1 | 1 | 1 |
 | Localization | 2 | 0 | 0 | 0 |
 | Support and legal | 1 | 1 | 0 | 0 |
 
-**22 of 51 P0 requirements are Done. The product still cannot accept a paying
+**23 of 51 P0 requirements are Done. The product still cannot accept a paying
 customer**, and no part of the service layer below is reachable over HTTP yet —
 there is no authentication and no operations or portal user interface. See
 "What blocks launch" at the end.
@@ -148,11 +148,22 @@ rule and the ten-pair parity threshold.
 
 ## 9.11–9.12 Client portal and operations
 
-**Not started.** FR-PORT-001..003 and FR-OPS-001..005 have no implementation.
-The schema, RLS policies and domain rules they depend on are in place and
-tested, but no authenticated UI exists. This is the single largest remaining
-body of work and it is what makes section 28's "the owner requires code edits
-for routine orders" rejection criterion currently true.
+| ID | Requirement | Status | Notes |
+|---|---|---|---|
+| FR-PORT-001 | Project overview | **Partial** | `listPortalProjects` plus `/app`: released report counts, open findings, critical/high counts, per-organization. Onboarding and remediation screens not built. |
+| FR-PORT-002 | Findings and reports | **Partial** | `/app/projects/[projectId]/findings` and `/app/reports/[reportId]`. Only findings carried by a **released** report are visible, and the return type omits `internalNotes` structurally. A non-released report is `NOT_FOUND` for a client, never `ROLE_NOT_PERMITTED`. No PDF. |
+| FR-PORT-003 | Collaboration | **Partial** | `listComments` / `postComment`: visibility is derived from the caller's role, never accepted as a parameter. No comment UI yet. |
+| FR-OPS-001 | Delivery queue | **Partial** | `deliveryQueue` plus `/ops`: cross-tenant, permission re-checked per organization, overdue first and undated last. |
+| FR-OPS-002 | Scope and plan tools | **Not started** | Services exist (`onboarding.ts`, `planning.ts`); no UI. |
+| FR-OPS-003 | Release queue | **Done** | `releaseQueue` plus `/ops/release-queue` — every candidate shows its gate blockers inline, so a reviewer does not have to open each report to learn why it is stuck. |
+| FR-OPS-004 | Support and privacy desks | **Not started** | Schema present; no UI. |
+| FR-OPS-005 | Audit log | **Partial** | `recentAuditEvents` behind `ops.view_audit_log`; every service writes events. No log UI. |
+
+**What is still missing here.** Onboarding, plan-building, execution and
+evaluation screens. The rules behind them are written and tested; what is
+absent is the UI and the PostgreSQL persistence. Section 28's "the owner
+requires code edits for routine orders" rejection criterion is therefore still
+true, though less of the gap is now logic and more of it is screens.
 
 ## 9.13 Notifications
 
@@ -187,7 +198,7 @@ for routine orders" rejection criterion currently true.
 | 16.2 tenant-isolation tests | **Done** | `supabase/test/rls_tenant_isolation.sql` — 27 assertions, all passing against PostgreSQL 16 |
 | 16.5 retention defaults | **Partial** | Published on the security page and encoded in `evidence_objects.retention_date`; no retention worker. |
 | 17.1 WCAG 2.2 AA | **Partial** | Skip link, focus styles, semantic landmarks, labelled fields, error summary linked to fields, reduced motion, scrollable tables with `role="region"`, no colour-only status. **No automated axe run and no manual screen-reader pass.** |
-| 20.1 test layers | **Partial** | Unit and service (383 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
+| 20.1 test layers | **Partial** | Unit and service (410 tests) and database/RLS (27 assertions) done. No integration, E2E, accessibility, visual regression or load tests. |
 | 21.1 CI pipeline | **Not started** | `npm run verify` runs format, lint, typecheck, test and build locally. No CI workflow file. |
 | 18.4 backups | **Blocked** | Requires a provisioned database. |
 

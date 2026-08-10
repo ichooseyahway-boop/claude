@@ -89,6 +89,21 @@ Not yet released, and not yet able to accept paying customers — see
 - `runDriftComparison`, the shadow comparison PRD 15.6 requires before an
   evaluator version change. Not part of `npm test` — it makes billable calls.
 
+**Client portal and operations workspace**
+- `/app` overview, project findings and released report views; `/ops` delivery
+  queue and release queue. Not locale-prefixed: a signed-in user's language
+  comes from their profile.
+- Findings shown to a customer come only from a **released** report, and the
+  return type omits `internalNotes` structurally, so no edit to a component can
+  render it.
+- A report a customer may not see reads as "not available", never "not
+  permitted" — the difference would confirm that a report about them exists and
+  is being withheld.
+- The release queue shows each report's gate blockers inline, so a reviewer
+  never has to open a report to learn why it is stuck.
+- Navigation is built from permissions the server already checked; hiding a link
+  is presentation, and every destination re-checks (7.7).
+
 **Security**
 - SSRF guard for outbound capture, including redirect re-validation.
 - Allowlist-based safe logging, key- and value-based redaction, secret masking
@@ -130,15 +145,15 @@ done and verified, but the repositories on top of them are not, so the in-memory
 store is development-only and production refuses to start rather than silently
 discarding writes.
 
-Also not included: the operations workspace and client portal user interfaces,
-PDF rendering, scheduled monitoring, retention workers, the CI workflow and the
-evaluation fixture suite.
+Also not included: onboarding, plan-building, execution and evaluation screens
+(their services are written and tested; the UI is not), PDF rendering, scheduled
+monitoring, retention workers and the CI workflow.
 
 Vendor accounts for database, billing, email and AI are not provisioned, and
 PRD 1.1.12 forbids substituting placeholder production values.
 
 ### Verification
 
-383 unit tests pass across 20 files. 27 database isolation assertions pass
+410 unit tests pass across 21 files. 27 database isolation assertions pass
 against PostgreSQL 16. `npm run verify` (format, lint, typecheck, test, build)
 is clean, with all bilingual routes prerendered.

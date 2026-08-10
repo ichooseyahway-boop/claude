@@ -6,7 +6,7 @@ PRD ref: section 20.
 
 | Layer | Status | Count | Command |
 |---|---|---|---|
-| Unit (domain rules and services) | Implemented | 383 across 20 files | `npm test` |
+| Unit (domain rules and services) | Implemented | 410 across 21 files | `npm test` |
 | Database constraints and RLS | Implemented | 27 assertions | `npm run db:test` |
 | Type checking | Implemented | — | `npm run typecheck` |
 | Lint / format | Implemented | — | `npm run lint`, `npm run format:check` |

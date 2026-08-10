@@ -18,7 +18,7 @@ Bilingual AI customer-experience testing and assurance for Canadian businesses.
 | Area | State |
 |---|---|
 | Bilingual public website (`en-CA` / `fr-CA`) | Complete, builds statically |
-| Scoring, parity, entitlements, run state machine, findings workflow | Complete, 383 unit and service tests |
+| Scoring, parity, entitlements, run state machine, findings workflow | Complete, 410 unit and service tests |
 | Database schema with row-level security | Complete, verified against PostgreSQL 16 |
 | Cross-tenant isolation suite | 27 assertions, all passing |
 | Provider contracts (billing, email, AI, storage, queue, PDF, analytics, secrets) | Interfaces defined; no vendor adapters |
