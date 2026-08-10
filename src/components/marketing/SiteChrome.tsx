@@ -1,56 +1,26 @@
 import Link from 'next/link';
 
-import { LOCALE_LABELS, LOCALES, type Locale } from '@/lib/i18n/config';
+import type { Locale } from '@/lib/i18n/config';
 import type { Messages } from '@/lib/i18n';
+
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 /**
  * Header, footer and the language switcher.
  *
- * These are server components with no client JavaScript. The navigation is a
- * plain list of links and the language switcher is a set of anchors, so both
- * work with JavaScript disabled and are keyboard-operable by default
- * (PRD 17.1). A disclosure-style mobile menu would need client state; a
- * wrapping link list does not, and reads the same to a screen reader.
+ * Server components apart from the language switcher, which needs the current
+ * pathname to satisfy FR-MKT-001's route-preserving requirement. The navigation
+ * is a plain list of links, so it is keyboard-operable by default (PRD 17.1).
+ * A disclosure-style mobile menu would need client state; a wrapping link list
+ * does not, and reads the same to a screen reader.
  */
 
 interface ChromeProps {
   readonly locale: Locale;
   readonly messages: Messages;
-  /** Path after the locale segment, e.g. "/pricing". Used by the switcher. */
-  readonly pathAfterLocale: string;
 }
 
-function LanguageSwitcher({ locale, messages, pathAfterLocale }: ChromeProps) {
-  return (
-    <nav aria-label={messages.common.languageSwitcherLabel} className="flex items-center gap-1">
-      {LOCALES.map((candidate) => {
-        const isCurrent = candidate === locale;
-
-        return (
-          <Link
-            key={candidate}
-            href={`/${candidate}${pathAfterLocale}`}
-            // The switcher's own label is in the target language, so it must
-            // be marked as such or a screen reader will read "Français" with
-            // an English voice (PRD 17.1 "language changes identified").
-            lang={candidate}
-            hrefLang={candidate}
-            aria-current={isCurrent ? 'true' : undefined}
-            className={
-              isCurrent
-                ? 'rounded px-2 py-1 text-sm font-semibold text-[var(--color-navy)] underline underline-offset-4'
-                : 'rounded px-2 py-1 text-sm text-[var(--color-slate)] hover:text-[var(--color-navy)] hover:underline hover:underline-offset-4'
-            }
-          >
-            {LOCALE_LABELS[candidate]}
-          </Link>
-        );
-      })}
-    </nav>
-  );
-}
-
-export function SiteHeader({ locale, messages, pathAfterLocale }: ChromeProps) {
+export function SiteHeader({ locale, messages }: ChromeProps) {
   const links = [
     { href: `/${locale}/how-it-works`, label: messages.nav.howItWorks },
     { href: `/${locale}/methodology`, label: messages.nav.methodology },
@@ -85,7 +55,7 @@ export function SiteHeader({ locale, messages, pathAfterLocale }: ChromeProps) {
         </nav>
 
         <div className="flex items-center gap-3">
-          <LanguageSwitcher locale={locale} messages={messages} pathAfterLocale={pathAfterLocale} />
+          <LanguageSwitcher locale={locale} label={messages.common.languageSwitcherLabel} />
           <Link
             href={`/${locale}/pricing`}
             className="rounded-md bg-[var(--color-teal)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-teal-700)]"
@@ -98,7 +68,7 @@ export function SiteHeader({ locale, messages, pathAfterLocale }: ChromeProps) {
   );
 }
 
-export function SiteFooter({ locale, messages }: Omit<ChromeProps, 'pathAfterLocale'>) {
+export function SiteFooter({ locale, messages }: ChromeProps) {
   const columns = [
     {
       heading: messages.footer.productHeading,

@@ -62,7 +62,7 @@ export default async function LocaleLayout({
           {messages.common.skipToContent}
         </a>
 
-        <SiteHeader locale={locale} messages={messages} pathAfterLocale="" />
+        <SiteHeader locale={locale} messages={messages} />
 
         <main id="main" className="flex-1">
           {children}
