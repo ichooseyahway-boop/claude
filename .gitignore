@@ -1,0 +1,21 @@
+node_modules/
+.next/
+out/
+build/
+coverage/
+next-env.d.ts
+*.tsbuildinfo
+
+# Secrets: never commit real environment values (PRD 1.1 rule 3, 23.3).
+.env
+.env.local
+.env.*.local
+.env.production
+!.env.example
+
+.DS_Store
+*.log
+npm-debug.log*
+.vercel
+.idea/
+.vscode/
