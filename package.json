@@ -1,8 +1,8 @@
 {
-  "name": "botassure-cx",
+  "name": "school-inbox",
   "version": "0.1.0",
   "private": true,
-  "description": "BotAssure CX - bilingual AI customer-experience testing and assurance platform",
+  "description": "School Inbox — a human-verified school-administration concierge service. Release 0 (Concierge MVP).",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -16,22 +16,16 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "db:test": "./scripts/db-test.sh",
-    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
-    "secret-scan": "node scripts/secret-scan.mjs",
     "test:e2e": "playwright test",
-    "audit": "npm audit --omit=dev --audit-level=high",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run seed:scenarios:check && npm run test && npm run db:test && npm run build && npm run test:e2e && npm run secret-scan && npm run audit",
-    "seed:scenarios": "node scripts/generate-scenario-seed.mjs",
-    "seed:scenarios:check": "node scripts/generate-scenario-seed.mjs --check"
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "0.116.0",
     "@supabase/ssr": "0.12.4",
     "@supabase/supabase-js": "2.112.2",
     "next": "16.3.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "stripe": "20.0.0",
     "zod": "4.4.3"
   },
   "devDependencies": {

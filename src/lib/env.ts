@@ -1,103 +1,121 @@
-import { z } from 'zod';
-
 /**
- * Server environment configuration.
+ * Centralised environment access.
  *
- * PRD refs: 1.1.3 (secrets stay server-side), 1.1.12 (stop rather than
- * hard-code fake production values), 14.7 (documented configuration).
- *
- * Nothing here throws at import time. A missing integration credential must
- * make that ONE feature report "not configured" — it must not take down the
- * marketing site, and it must never fall back to a placeholder value that looks
- * like a working configuration.
+ * Design goals (PRD §23, master-prompt rule 7 & 12):
+ *  - The marketing site renders with NO configuration at all.
+ *  - Server features fail FAST with a clear, named error when a required
+ *    release-specific variable is missing — never silently, never pretending.
+ *  - Secrets are read only in server code. Nothing here is exported to the
+ *    browser except values already prefixed `NEXT_PUBLIC_`.
  */
 
-const ServerEnvSchema = z.object({
-  NODE_ENV: z
-    .enum(['development', 'test', 'production'])
-    .default('development'),
+import "server-only";
 
-  // Database / auth
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1).optional(),
-  /** Service-role key. Server-only; never referenced from a client component. */
-  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
-
-  // Billing
-  BILLING_SECRET_KEY: z.string().min(1).optional(),
-  BILLING_WEBHOOK_SECRET: z.string().min(1).optional(),
-  NEXT_PUBLIC_BILLING_PUBLISHABLE_KEY: z.string().min(1).optional(),
-
-  // Email
-  EMAIL_API_KEY: z.string().min(1).optional(),
-  EMAIL_FROM_ADDRESS: z.string().email().optional(),
-  EMAIL_REPLY_TO_ADDRESS: z.string().email().optional(),
-
-  // AI evaluation
-  AI_PROVIDER: z.enum(['anthropic', 'none']).default('none'),
-  AI_API_KEY: z.string().min(1).optional(),
-  AI_MODEL: z.string().min(1).optional(),
-
-  // Observability
-  SENTRY_DSN: z.string().url().optional(),
-
-  // Operational limits
-  MAX_UPLOAD_BYTES: z.coerce.number().int().positive().default(20_000_000),
-  EVIDENCE_RETENTION_DAYS: z.coerce.number().int().positive().default(90),
-});
-
-export type ServerEnv = z.infer<typeof ServerEnvSchema>;
-
-let cached: ServerEnv | null = null;
-
-export function serverEnv(): ServerEnv {
-  if (cached) return cached;
-  const parsed = ServerEnvSchema.safeParse(process.env);
-  if (!parsed.success) {
-    // A malformed value (e.g. a non-numeric limit) is a deployment error worth
-    // failing on; a *missing* optional integration is not, and is handled by
-    // the `isXConfigured` helpers below.
-    throw new Error(
-      `Invalid server environment configuration: ${parsed.error.issues
-        .map((issue) => issue.path.join('.'))
-        .join(', ')}`,
+export class ConfigurationError extends Error {
+  readonly missing: string[];
+  constructor(feature: string, missing: string[]) {
+    super(
+      `NOT_CONFIGURED: ${feature} requires ${missing.join(", ")}. ` +
+        `Set them in the environment (see .env.example).`,
     );
+    this.name = "ConfigurationError";
+    this.missing = missing;
   }
-  cached = parsed.data;
-  return cached;
 }
 
-/** Test seam: clears the memoized environment. */
-export function resetServerEnvCache(): void {
-  cached = null;
+function read(name: string): string | undefined {
+  const v = process.env[name];
+  return v && v.trim().length > 0 ? v.trim() : undefined;
 }
 
-export function isDatabaseConfigured(): boolean {
-  const env = serverEnv();
-  return Boolean(
-    env.NEXT_PUBLIC_SUPABASE_URL && env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  );
+/** Require a set of variables for a named feature or throw ConfigurationError. */
+export function require_<const N extends readonly string[]>(
+  feature: string,
+  names: N,
+): { [K in N[number]]: string } {
+  const out = {} as { [K in N[number]]: string };
+  const missing: string[] = [];
+  for (const name of names) {
+    const v = read(name);
+    if (v === undefined) missing.push(name);
+    else (out as Record<string, string>)[name] = v;
+  }
+  if (missing.length > 0) throw new ConfigurationError(feature, missing);
+  return out;
 }
 
-export function isAuthConfigured(): boolean {
-  return isDatabaseConfigured();
-}
+export const env = {
+  appUrl(): string {
+    return (
+      read("NEXT_PUBLIC_APP_URL") ??
+      read("VERCEL_URL")?.replace(/^/, "https://") ??
+      "http://localhost:3000"
+    ).replace(/\/$/, "");
+  },
 
-export function isBillingConfigured(): boolean {
-  const env = serverEnv();
-  return Boolean(env.BILLING_SECRET_KEY && env.BILLING_WEBHOOK_SECRET);
-}
+  // --- Stripe --------------------------------------------------------------
+  stripe(): { secretKey: string } {
+    const { STRIPE_SECRET_KEY } = require_("Stripe checkout", [
+      "STRIPE_SECRET_KEY",
+    ]);
+    return { secretKey: STRIPE_SECRET_KEY };
+  },
+  stripeWebhookSecret(): string {
+    return require_("Stripe webhook", ["STRIPE_WEBHOOK_SECRET"])
+      .STRIPE_WEBHOOK_SECRET;
+  },
+  stripeConfigured(): boolean {
+    return read("STRIPE_SECRET_KEY") !== undefined;
+  },
 
-export function isEmailConfigured(): boolean {
-  const env = serverEnv();
-  return Boolean(env.EMAIL_API_KEY && env.EMAIL_FROM_ADDRESS);
-}
+  // --- Supabase ------------------------------------------------------------
+  supabase(): { url: string; serviceRoleKey: string } {
+    const vars = require_("Database (Supabase)", [
+      "SUPABASE_URL",
+      "SUPABASE_SERVICE_ROLE_KEY",
+    ]);
+    return {
+      url: vars.SUPABASE_URL,
+      serviceRoleKey: vars.SUPABASE_SERVICE_ROLE_KEY,
+    };
+  },
+  supabaseConfigured(): boolean {
+    return (
+      read("SUPABASE_URL") !== undefined &&
+      read("SUPABASE_SERVICE_ROLE_KEY") !== undefined
+    );
+  },
 
-export function isAiConfigured(): boolean {
-  const env = serverEnv();
-  return env.AI_PROVIDER !== 'none' && Boolean(env.AI_API_KEY);
-}
+  // --- Email ---------------------------------------------------------------
+  emailProvider(): "resend" | "postmark" | "console" {
+    const p = read("EMAIL_PROVIDER")?.toLowerCase();
+    if (p === "resend" || p === "postmark") return p;
+    return "console";
+  },
+  emailProviderApiKey(): string {
+    return require_("Email delivery", ["EMAIL_PROVIDER_API_KEY"])
+      .EMAIL_PROVIDER_API_KEY;
+  },
+  emailFrom(): string {
+    return (
+      read("EMAIL_FROM_ADDRESS") ?? "School Inbox <hello@schoolinbox.example>"
+    );
+  },
+  operationsEmail(): string | undefined {
+    return read("OPERATIONS_NOTIFICATION_EMAIL");
+  },
 
-export function isProduction(): boolean {
-  return serverEnv().NODE_ENV === 'production';
-}
+  // --- Operations console --------------------------------------------------
+  opsAccessToken(): string | undefined {
+    return read("OPS_ACCESS_TOKEN");
+  },
+
+  // --- Analytics -----------------------------------------------------------
+  analyticsEnabled(): boolean {
+    return read("NEXT_PUBLIC_ANALYTICS_ENABLED") === "true";
+  },
+
+  isProduction(): boolean {
+    return process.env.NODE_ENV === "production";
+  },
+};

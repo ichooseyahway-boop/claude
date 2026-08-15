@@ -1,75 +1,155 @@
-import Link from 'next/link';
-import { LanguageSwitcher } from '@/components/marketing/language-switcher';
-import { brand } from '@/config/brand';
-import { HEADER_ROUTES } from '@/config/routes';
-import { getMessages, localizedPath, type Locale } from '@/lib/i18n';
+"use client";
 
-/**
- * Public site header.
- *
- * PRD refs: FR-MKT-001 (language switching preserves the equivalent route),
- * 17.1 (keyboard operation, skip link, landmarks).
- *
- * This is a server component with no client JavaScript. The mobile navigation
- * uses a native <details> disclosure rather than a JS menu so it works with the
- * keyboard and assistive technology without a hydration dependency.
- */
-export function SiteHeader({ locale }: { locale: Locale }) {
-  const m = getMessages(locale);
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Wordmark } from "@/components/shared/wordmark";
+import { ButtonLink } from "@/components/shared/button";
+import { MenuIcon, CloseIcon } from "@/components/shared/icons";
+import { primaryNav } from "@/lib/config/site";
+import { cx } from "@/lib/cx";
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const close = () => setOpen(false);
+
+  // Lock body scroll and support Escape while the menu is open.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <>
-      <a href="#main" className="skip-link">
-        {m.nav.skipToContent}
-      </a>
-      <header className="border-b border-[color:var(--border-subtle)] bg-white">
-        <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-4 px-4 py-4 sm:px-6">
+    <header
+      className={cx(
+        "sticky top-0 z-40 transition-colors duration-[var(--dur-mid)]",
+        scrolled
+          ? "border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--canvas)_88%,transparent)] backdrop-blur-md"
+          : "border-b border-transparent bg-[var(--canvas)]",
+      )}
+    >
+      <div className="shell flex h-[68px] items-center justify-between gap-4">
+        <Wordmark />
+
+        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+          {primaryNav.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={cx(
+                  "rounded-md px-3 py-2 text-[0.95rem] transition-colors duration-[var(--dur-fast)]",
+                  active
+                    ? "text-ink"
+                    : "text-ink-soft hover:text-ink hover:bg-black/[0.03]",
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="hidden items-center gap-2 lg:flex">
           <Link
-            href={localizedPath(locale)}
-            className="text-navy-900 text-lg font-bold"
+            href="/sign-in"
+            className="rounded-md px-3 py-2 text-[0.95rem] text-ink-soft transition-colors hover:text-ink"
           >
-            {brand.name}
+            Sign In
           </Link>
-
-          <nav
-            aria-label={m.nav.mainNavigation}
-            className="order-3 w-full sm:order-2 sm:w-auto"
-          >
-            <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-              {HEADER_ROUTES.map((route) => (
-                <li key={route.path}>
-                  <Link
-                    href={localizedPath(locale, route.path)}
-                    className="hover:text-navy-900 underline-offset-4 hover:underline"
-                  >
-                    {route.label(m)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="order-2 ml-auto flex items-center gap-3 sm:order-3">
-            <LanguageSwitcher
-              locale={locale}
-              label={m.meta.localeNameOther}
-              ariaLabel={m.meta.switchLanguage}
-            />
-            <Link
-              href={localizedPath(locale, '/sign-in')}
-              className="text-sm font-semibold underline underline-offset-4"
-            >
-              {m.nav.signIn}
-            </Link>
-            <Link
-              href={localizedPath(locale, '/pricing')}
-              className="bg-navy-900 hover:bg-navy-700 inline-flex min-h-11 items-center rounded-lg px-4 text-sm font-semibold text-white"
-            >
-              {m.nav.startAudit}
-            </Link>
-          </div>
+          <ButtonLink href="/get-started" size="md">
+            Start My Rescue
+          </ButtonLink>
         </div>
-      </header>
-    </>
+
+        {/* Mobile: persistent CTA + menu trigger */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <ButtonLink
+            href="/get-started"
+            size="md"
+            className="text-[0.85rem] px-3"
+          >
+            Start
+          </ButtonLink>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            className="grid h-11 w-11 place-items-center rounded-md text-ink ring-1 ring-[var(--border-strong)]"
+          >
+            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+            {open ? <MenuIconClosed /> : <MenuIcon />}
+          </button>
+        </div>
+      </div>
+
+      {open && (
+        <div
+          id="mobile-menu"
+          className="lg:hidden border-t border-[var(--border)] bg-[var(--canvas)]"
+        >
+          <nav aria-label="Primary" className="shell flex flex-col gap-1 py-4">
+            {primaryNav.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={close}
+                className="rounded-md px-3 py-3 text-[1.05rem] text-ink hover:bg-black/[0.04]"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/faq"
+              onClick={close}
+              className="rounded-md px-3 py-3 text-[1.05rem] text-ink hover:bg-black/[0.04]"
+            >
+              FAQ
+            </Link>
+            <Link
+              href="/sign-in"
+              onClick={close}
+              className="rounded-md px-3 py-3 text-[1.05rem] text-ink hover:bg-black/[0.04]"
+            >
+              Sign In
+            </Link>
+            <div className="mt-2">
+              <ButtonLink
+                href="/get-started"
+                size="lg"
+                className="w-full"
+                onClick={close}
+              >
+                Start My Inbox Rescue
+              </ButtonLink>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
+}
+
+function MenuIconClosed() {
+  return <CloseIcon />;
 }
